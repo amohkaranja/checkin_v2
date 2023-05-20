@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
-import 'package:checkin2/screens/email_validation.dart';
-import 'package:checkin2/screens/otp_page.dart';
-import 'package:checkin2/screens/user_signUp.dart';
-import 'package:checkin2/screens/student_home.dart';
+import 'package:checkin/screens/email_validation.dart';
+import 'package:checkin/screens/otp_page.dart';
+import 'package:checkin/screens/user_signUp.dart';
+import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
  import '../screens/reset_password.dart';

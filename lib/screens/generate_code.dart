@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-
 import '../models/user_model.dart';
 import '../utils/apis_list.dart';
 
@@ -65,7 +64,7 @@ void initState() {
             ),
           ),
               Expanded(flex: 4, child: Container(
-            child: QrImage(data:_profile?.regNo??'',size:250 ,version: QrVersions.auto,),
+            // child: QrImage(data:_profile?.regNo??'',size:250 ,version: QrVersions.auto,),
           )),
         ]),
       ),
