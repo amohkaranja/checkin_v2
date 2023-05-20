@@ -5,8 +5,8 @@ import 'package:checkin/screens/user_signUp.dart';
 import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
- import '../screens/reset_password.dart';
 import '../utils/apis_list.dart';
+import 'package:elegant_notification/elegant_notification.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -44,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OtpPage(origin: "reset")),
+                        builder: (context) => const OtpPage(origin: "reset")),
                   )
                 }
       });
@@ -66,7 +66,7 @@ class _LoginFormState extends State<LoginForm> {
                   _loading=false;
                 }),
                   setState(() {
-                    _errorMessage = "Invalid username or password!";
+                    _errorMessage = error;
                   })
                 }
               else
@@ -78,13 +78,13 @@ class _LoginFormState extends State<LoginForm> {
                    Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OtpPage(origin: "new_user",)),
+                        builder: (context) => const OtpPage(origin: "new_user",)),
                   )
                 }else{
                    Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StudentHomeScreen()),
+                        builder: (context) => const StudentHomeScreen()),
                   )
                 }
                  
@@ -99,6 +99,7 @@ class _LoginFormState extends State<LoginForm> {
         key: _formKey,
         child: Column(
           children: <Widget>[
+            
             _errorMessage != ""
                 ? Container(
                     height: 20,
@@ -107,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
                     padding: const EdgeInsets.all(2),
                     child: Text(
                       "$_errorMessage",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.red,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
@@ -188,7 +189,7 @@ class _LoginFormState extends State<LoginForm> {
     onTap: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => UserSignUp()),
+        MaterialPageRoute(builder: (context) => const UserSignUp()),
       );
     },
     child: const Text(
@@ -202,7 +203,7 @@ class _LoginFormState extends State<LoginForm> {
         Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EmailValidation()),
+                        builder: (context) => const EmailValidation()),
                   );
     },
     child: const Text(
@@ -215,12 +216,12 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
             ),
-          _loading?  Center(
+          _loading?  const Center(
   child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
-    children: const [
+    children: [
       CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(const Color(0xff008346)), 
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xff008346)), 
       ), 
       SizedBox(height: 8),
       Text(

@@ -14,7 +14,6 @@ class ClassInstance extends StatefulWidget {
   final ClassModel model;
   final String stdId;
   final String qrData;
-
   @override
   _ClassInstanceState createState() => _ClassInstanceState();
 }

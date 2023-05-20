@@ -33,12 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: const BoxDecoration(color: Colors.white),
                   child: Expanded(
                     child: Column(children: <Widget>[
-                      Expanded(
+                      const Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           // ignore: prefer_const_literals_to_create_immutables
                           children: <Widget>[
-                            const SizedBox(
+                            SizedBox(
                               height: 200.0,
                               width: 250.0,
                               child: Image(
@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       Expanded(
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           // height: 200.0
                           width: 400.0,
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: LoginForm(),
+                          child: const LoginForm(),
                         ),
                       ),
                     ]),

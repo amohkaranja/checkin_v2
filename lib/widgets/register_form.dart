@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import '../utils/apis_list.dart';
 import 'package:checkin/screens/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class UserRegister extends StatefulWidget {
   const UserRegister({super.key});
@@ -15,7 +17,13 @@ class _UserRegisterState extends State<UserRegister> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
- 
+ @override
+void initState() {
+    dateInput.text = ""; //set the initial value of text field
+    super.initState();
+    fetchInstitutions();
+  }
+
 
   bool _isEmailValid = true;
   bool _isFirstName = false;
@@ -23,6 +31,8 @@ class _UserRegisterState extends State<UserRegister> {
   bool _isPhoneNumber = false;
   bool _isRegNo = false;
   bool _isPassword = false;
+  final List<String> genders = <String>['MALE', 'FEMALE', 'OTHERS'];
+  
   bool _validateEmail(String email) {
     String emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
     RegExp regExp = RegExp(emailPattern);
@@ -44,54 +54,67 @@ class _UserRegisterState extends State<UserRegister> {
       return false;
     }
   }
+Future<void> fetchInstitutions() async {
 
+      final prefs = await SharedPreferences.getInstance();
+     _institutions= (prefs.getStringList("schools")??[]);
+
+}
   late String _username = "",
       _password = "",
       first_name = "",
       last_name = "",
       email = "",
+      other_names="",
       _phoneNumber = "",
       _confirmPassword = "",
       student_number = "";
   String _errorMessage = "";
   bool _obscureText = true;
+  late String gender = genders.first;
+     List<String> _institutions = []; // list of institutions
+  late String? _selectedId = _institutions[0].split(":")[1]; 
 
   submit() {
     setState(() {
       _errorMessage = "";
     });
     var data = {
-      "firstname": first_name,
-      "lastname": last_name,
+      "first_name": first_name,
+      "last_name": last_name,
+      "other_names": other_names,
       "email": email,
+       "gender": gender,
       "password": _password,
-      "phone": "+254$_phoneNumber",
-      "regNo": student_number,
+      "phone_number": "+254$_phoneNumber",
+      "student_number": student_number,
+      "institution_id": _selectedId,
+      "user_type": "STUDENT",
     };
     if (_isFirstName &&
         _isLastName &&
         _isPhoneNumber &&
         _isRegNo &&
         _isPassword) {
-      post(
-          data,
-          "student_register.php",
-          (result, error) => {
-                if (result == null)
-                  {
-                    setState(() {
-                      _errorMessage = error;
-                    }),
+          print(data);
+      // post(
+      //     data,
+      //     "api/auth/users/",
+      //     (result, error) => {
+      //           if (result == null)
+      //             {
+      //               setState(() {
+      //                 _errorMessage = error;
+      //               }),
                     
                     
-                  }
-                else{
-                  print("It's a good day, no errors"),
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                )}
-              });
+      //             }
+      //           else{
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (context) => const HomeScreen()),
+      //           )}
+      //         });
     }
   }
 
@@ -151,12 +174,6 @@ class _UserRegisterState extends State<UserRegister> {
                   gapPadding: 5.0,
                 )),
             keyboardType: TextInputType.name,
-            onChanged: (value) {
-              // Validate the phone number as the user types
-              if (!validatePhone(value)) {
-                phoneController.clear();
-              }
-            },
             validator: (value) {
               if (value!.isEmpty) {
                 setState(() {
@@ -185,12 +202,6 @@ class _UserRegisterState extends State<UserRegister> {
                   gapPadding: 5.0,
                 )),
             keyboardType: TextInputType.name,
-            onChanged: (value) {
-              // Validate the phone number as the user types
-              if (!validatePhone(value)) {
-                phoneController.clear();
-              }
-            },
             validator: (value) {
                if (value!.isEmpty) {
                 setState(() {
@@ -205,6 +216,45 @@ class _UserRegisterState extends State<UserRegister> {
               return null;
             },
             onSaved: (value) => last_name = value!,
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+                       TextFormField(
+            decoration: InputDecoration(
+                labelText: "Other Names" ,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  gapPadding: 5.0,
+                )),
+            keyboardType: TextInputType.name,
+            onSaved: (value) => other_names = value!,
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+              Container(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: gender, // Set the selected value
+              onChanged: (String? value) {
+                // This is called when the user selects an item.
+                setState(() {
+                  gender = value!;
+                });
+              },
+              items: genders.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
           ),
           const SizedBox(
             height: 10.0,
@@ -264,7 +314,38 @@ class _UserRegisterState extends State<UserRegister> {
             },
             onSaved: (value) => _phoneNumber = value!,
           ),
-  
+           const SizedBox(
+            height: 10.0,
+          ),
+           Container(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: _institutions.isNotEmpty
+                ? DropdownButton(
+                    isExpanded: true,
+                    value: _selectedId,
+                    hint: const Text('Select an institution'),
+                    items: _institutions.map((university) {
+                      final splitUniversity = university.split(":");
+                      return DropdownMenuItem(
+                         value: splitUniversity[1],
+                         child: Text(splitUniversity[0]),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedId = value.toString();
+                      });
+                    },
+                  )
+                : Loading(),
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
           const SizedBox(
             height: 10.0,
           ),

@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:checkin/models/user_model.dart';
-import 'package:checkin/screens/class_instance.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -12,7 +10,7 @@ import '../screens/scanned_classes.dart';
 
 
 
-const api = "http://admin.check-in.co.ke:71/";
+const api = "https://admin.check-in.co.ke:6700/";
 // ignore: non_constant_identifier_names
 /// login function
 /// @param {JSON} data
@@ -20,32 +18,37 @@ const api = "http://admin.check-in.co.ke:71/";
 void login(data, callback) async {
   final prefs = await SharedPreferences.getInstance();
  
-  var url = Uri.parse("${api}student_login.php");
-  var response = await http.post(url, body: data);
+  var url = Uri.parse("${api}api/auth/jwt/login/");
+  print(data);
+   var response = await http.post(url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data));
   var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
 
   // ignore: avoid_print
-  if (jsonResponse["success"] == "2") {
-     prefs.setString('password',data["password"]); 
-    prefs.setString('student_id', jsonResponse['login'][0]['student_id']);
-    prefs.setString('firstname', jsonResponse['login'][0]['firstname']);
-    prefs.setString('lastname', jsonResponse['login'][0]['lastname']);
-    prefs.setString('email', jsonResponse['login'][0]['email']);
-    prefs.setString('phone', jsonResponse['login'][0]['phone']);
-    prefs.setString('regNo', jsonResponse['login'][0]['regNo']);
-    prefs.setString('student_profile', jsonResponse['login'][0]['student_profile']);
-    prefs.setString('email_validation', jsonResponse['login'][0]['email_validation']);
-   
-        // ignore: void_checks
-    if(jsonResponse['login'][0]['email_validation'].length>1){
-      return callback("2", null);
-    }else{
-       return callback(jsonResponse["message"], null);
-    }
+  if (jsonResponse["responseCode"] == 0) {
     
-    
-  } else{
-    callback(null, jsonResponse["message"]);
+    AuthToken token = await AuthToken.fromJson(jsonResponse['data']);
+    var url = Uri.parse("${api}api/auth/users/me"); 
+    var newresponse=  await http.get(url,headers:  <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':'Bearer ${token.access!}',
+      },);
+  // print(response);
+  var newjsonResponse = convert.jsonDecode(newresponse.body) as Map<String, dynamic>;
+  print(newjsonResponse['data']);
+  UserModel user = await UserModel.fromJson(newjsonResponse['data']);
+    prefs.setString('access',token.access); 
+    prefs.setString('refresh',token.refresh); 
+    prefs.setString('pid',user.pid); 
+        // ignore: void_check
+     callback("Success", null);
+  } else if(jsonResponse["responseCode"] == 1){
+    callback(null, "Invalid User or password");
+  }else{
+    callback(null, "Error occured, Please try again later");
   }
   
 }
@@ -74,7 +77,7 @@ Future<bool> fetchDataAndSaveToPrefs() async {
   bool loading = true;
   // obtain shared preferences
   final prefs = await SharedPreferences.getInstance();
-  String url = '${api}api/v1/institution/institutions/'; 
+  String url = '${api}api/v1/institution/institutions'; 
   var response = await http.get(Uri.parse(url));
   var data = json.decode(response.body);
   // Convert data to List<String>
