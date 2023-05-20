@@ -1,4 +1,5 @@
-import 'dart:convert'; // to parse JSON
+import 'dart:convert';
+import 'dart:ffi'; // to parse JSON
 
 class User {
   final String password;
@@ -6,7 +7,41 @@ class User {
 
   User(this.password, this.email);
 }
+class UserModel{
+  late String first_name;
+  late String other_names;
+  late String last_name;
+  late String email;
+  late String phone_number;
+  late String institution_code;
+  late bool is_active;
+  late String pid;
+  UserModel({required this.first_name,required this.other_names,
+  required this.last_name,required this.email, required this.phone_number,
+   required this.institution_code,required this.is_active,required this.pid
+  });
 
+  factory UserModel.fromJson(Map<String, dynamic> json){
+    return UserModel(
+      first_name:json['first_name'] , 
+    other_names:json['other_names'] , 
+    last_name: json['last_name'] , 
+    email: json['email'], 
+    phone_number:json['phone_number'] ,
+     institution_code: json['institution_code'], 
+     is_active: json['is_active'],
+     pid:json['pid']
+     );
+  }
+}
+class AuthToken {
+late String access;
+late String refresh;
+AuthToken({required this.access, required this.refresh});
+factory AuthToken.fromJson(Map<String, dynamic>json){
+  return  AuthToken(access: json['access'], refresh: json['refresh']);
+}
+}
 class Profile{
   late String first_name;
   late String  last_name;
