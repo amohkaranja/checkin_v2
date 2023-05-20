@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../utils/apis_list.dart';
-import 'package:checkin2/screens/login_page.dart';
+import 'package:checkin/screens/login_page.dart';
 
 class UserRegister extends StatefulWidget {
   const UserRegister({super.key});

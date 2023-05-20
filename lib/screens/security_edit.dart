@@ -1,17 +1,16 @@
 import 'package:checkin/screens/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import '../utils/apis_list.dart';
 
-class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({super.key});
 
   @override
-  State<ResetPassword> createState() => _ResetPasswordState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
+class _ChangePasswordState extends State<ChangePassword> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController currentPasswordController = TextEditingController();
    TextEditingController passwordController = TextEditingController();
@@ -28,8 +27,9 @@ bool _loading=false;
 bool _isCurrentPassword = false;
 bool _isConfirmPassword = false;
 late String _password = "",
+_currentPassword="", 
 _confirmPassowrd="";
-  String email="";
+  Profile? _profile; 
   String _errorMessage = "";
   @override
 void initState() {
@@ -38,10 +38,10 @@ void initState() {
   }
 
    Future<void> loadProfileData() async {
-    final prefs = await SharedPreferences.getInstance();
-       setState(() {
-      email= prefs.getString("email")!;
-      });
+  final profile = await profileData();
+   setState(() {
+      _profile = profile; // assign the value of profile to _profile
+    });
 }
 
   submit(){
@@ -49,8 +49,14 @@ void initState() {
       _errorMessage = "";
      _loading=true;
     });
-        var data= {"password":_password,"account":"2","email":email};
-    var url= 'forgot_password_reset.php';
+        var data= {"new_password":_password,"account":"2","shared_id":_profile!.id};
+    var url= 'update_password.php';
+    if(_currentPassword!=_profile!.password){
+          setState(() {
+                  _loading=false;
+                  _errorMessage = "Invalid current password";
+                });
+          }else{
          Patch(data, url, (result,error)=>{
     
        if (result == null)
@@ -74,7 +80,7 @@ void initState() {
                   )
                 }
     });
-
+}
 
     
   
@@ -84,7 +90,7 @@ void initState() {
     return Scaffold(
     appBar: AppBar(
         title: const Text(
-          "Reset password",
+          "Security",
           style: TextStyle(
               fontStyle: FontStyle.italic, fontWeight: FontWeight.w400),
         ),
@@ -132,6 +138,37 @@ void initState() {
                       ),
                     )
                   : Container(height: 1),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: TextFormField(
+                        controller: currentPasswordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Currently Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            gapPadding: 5.0,
+                          ),
+                        ),
+                        validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter current password';
+                        } else {
+                           setState(() {
+                          _currentPassword = value;
+                      });
+                        }
+                      },
+                      onSaved: (value) => _currentPassword = value!,
+                       onChanged: (value) {
+                  setState(() {
+                    _currentPassword = value;
+                  });
+                },
+                      ),
+                    ),
+                  ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(

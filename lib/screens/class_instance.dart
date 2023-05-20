@@ -1,6 +1,6 @@
-import 'package:checkin2/screens/student_home.dart';
+import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
-import 'package:checkin2/models/user_model.dart';
+import 'package:checkin/models/user_model.dart';
 
 import '../utils/apis_list.dart';
 class ClassInstance extends StatefulWidget {

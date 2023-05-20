@@ -1,30 +1,28 @@
-import 'package:checkin2/screens/class_instance.dart';
-import 'package:checkin2/screens/student_home.dart';
+import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../models/user_model.dart';
 import '../utils/apis_list.dart';
+import 'class_instance.dart';
 
-class ClassScan extends StatefulWidget {
-  const ClassScan({super.key});
+class ClassScanII extends StatefulWidget {
+  const ClassScanII({super.key});
 
   @override
-  State<ClassScan> createState() => _ClassScanState();
+  State<ClassScanII> createState() => _ClassScanIIState();
 }
 
-class _ClassScanState extends State<ClassScan> {
-    Profile? _profile; 
-    bool isScanCompleted=false;
-  bool isFlashon= false;
-  bool isFrontCamera=false;
-  String _errorMessage = "";
+class _ClassScanIIState extends State<ClassScanII> {
+   Profile? _profile; 
+  Barcode? result;
+  QRViewController?controller;
+   String _errorMessage = "";
   bool _loading=false;
-  MobileScannerController scannerController= MobileScannerController();
-  void closeScreen(){
-    isScanCompleted=false;
-  }
-  submit(Code){
+   bool isFlashon= false;
+  bool isFrontCamera=false;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'Qr');
+ submit(Code){
     var data={"student_id":_profile!.id,"qr_code":Code};
     var url="student_class_scan.php";
       setState(() {
@@ -64,33 +62,21 @@ postScan(data, url, (result, error) => {
                 }
             });
   }
-   
-     @override
-void initState() {
-  super.initState();
-  loadProfileData();
-  }
-    Future<void> loadProfileData() async {
-  final profile = await profileData();
-   setState(() {
-      _profile = profile; // assign the value of profile to _profile
-    });
-}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          actions: [
-          IconButton(onPressed: (){
+       appBar: AppBar(
+        actions: [
+           IconButton(onPressed: (){
             setState(() {
               isFlashon=!isFlashon;
-             scannerController.toggleTorch();
+             controller?.toggleFlash();
             });
           }, icon: Icon(Icons.flash_on,color:isFlashon?Colors.blue: Colors.white,)),
-          IconButton(onPressed: (){
+            IconButton(onPressed: (){
         setState(() {
               isFrontCamera=!isFrontCamera;
-             scannerController.switchCamera();
+             controller?.flipCamera();
             });
 
           }, icon: Icon(Icons.camera_front,color:isFrontCamera?Colors.blue: Colors.white,))
@@ -104,35 +90,41 @@ void initState() {
         backgroundColor: const Color(0xff008346),
       ),
       body: Container(
-        width: double.infinity,
+          width: double.infinity,
         padding: const EdgeInsets.all(16),
-        child: Column(children: [
-      Container(
-            width: double.infinity,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              child: Container(
-                
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Colors.white,
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3))
-                    ]),
-                child: const Image(
-                  height:120,
-                  image: AssetImage("assets/images/logo_jpg.png"),
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
-             Expanded(child: Column(
+        child: Column(
+          children: [
+               Expanded(
+                flex: 1,
+                 child: Container(
+                           width: double.infinity,
+                           child: Card(
+                             shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                             child: Container(
+                  
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.white,
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3))
+                      ]),
+                  child: const Image(
+                    height:120,
+                    image: AssetImage("assets/images/logo_jpg.png"),
+                    fit: BoxFit.contain,
+                  ),
+                             ),
+                           ),
+                         ),
+               ),
+                 Expanded(
+                  flex: 1,
+                  child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children:  [
                   _errorMessage != ""
@@ -170,22 +162,12 @@ void initState() {
            ),)
               ],
             )),
-             Expanded(flex: 4, child: Container(
-            child: MobileScanner(
-              controller: scannerController,
-        onDetect: (capture){
-              final List<Barcode> barcodes = capture.barcodes;
-             String code;
-               for (final barcode in barcodes) {
-                if(!isScanCompleted){
-                  code=barcode.rawValue??'---';
-                  isScanCompleted=true;
-                  submit( code);
-                }
-          }
-            }),
-          )),
-           Expanded(child: Container(
+          Expanded(
+            flex: 4,
+            child: _buildQrView(context)),
+             Expanded(
+              flex: 1,
+              child: Container(
             alignment: Alignment.center,
             child:  const Text("powered by Javan informatics",
            style: TextStyle(
@@ -195,8 +177,28 @@ void initState() {
              letterSpacing: 1
            ),),
           ))
-        ]),
+          ],
+        ),
       ),
     );
   }
+  Widget _buildQrView(BuildContext context){
+var scanArea =(MediaQuery.of(context).size.width<400||MediaQuery.of(context).size.height<400)?150:300;
+
+  return QRView(key: qrKey, onQRViewCreated: _onQRViewCreated,overlay: QrScannerOverlayShape(
+    borderColor: Colors.red,
+    borderRadius: 10,
+    borderLength: 30,
+    borderWidth: 10,
+    cutOutSize: scanArea.toDouble()),);
+}
+
+void _onQRViewCreated(QRViewController controller){
+    setState(() {
+      this.controller=controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
+      submit(scanData);
+     });
+}
 }

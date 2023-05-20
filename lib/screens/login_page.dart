@@ -1,4 +1,4 @@
-import 'package:checkin2/widgets/login_form.dart';
+import 'package:checkin/widgets/login_form.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

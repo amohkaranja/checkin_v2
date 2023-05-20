@@ -1,4 +1,4 @@
-import 'package:checkin2/models/user_model.dart';
+import 'package:checkin/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class RegisteredClasses extends StatefulWidget {

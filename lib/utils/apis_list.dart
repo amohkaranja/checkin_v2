@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:checkin2/models/user_model.dart';
-import 'package:checkin2/screens/class_instance.dart';
+import 'package:checkin/models/user_model.dart';
+import 'package:checkin/screens/class_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
