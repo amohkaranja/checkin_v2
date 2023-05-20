@@ -1,10 +1,9 @@
-import 'package:checkin2/models/user_model.dart';
-import 'package:checkin2/screens/class_instance.dart';
-import 'package:checkin2/screens/class_scan.dart';
-import 'package:checkin2/screens/class_scanII.dart';
-import 'package:checkin2/screens/generate_code.dart';
-import 'package:checkin2/screens/registered_classes.dart';
-import 'package:checkin2/screens/scanned_classes.dart';
+import 'package:checkin/models/user_model.dart';
+import 'package:checkin/screens/class_instance.dart';
+import 'package:checkin/screens/class_scan.dart';
+import 'package:checkin/screens/generate_code.dart';
+import 'package:checkin/screens/registered_classes.dart';
+import 'package:checkin/screens/scanned_classes.dart';
 import 'package:flutter/material.dart';
 import '../utils/apis_list.dart';
 import 'user_profile.dart';
@@ -69,11 +68,11 @@ class StudentHomeScreen extends StatelessWidget {
                           builder: (context) => ClassScanII()),
                     );
                         },
-                child: Card(
+                child: const Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(30.0),
+                      padding: EdgeInsets.all(30.0),
                       child: Center(
-                        child: Column(children: const <Widget>[
+                        child: Column(children: <Widget>[
                           Image(
                             image: AssetImage("assets/images/qr_code_black.png"),
                             height: 80,
@@ -121,10 +120,10 @@ class StudentHomeScreen extends StatelessWidget {
                           );
                         });
                         },
-                                    child: Card(
+                                    child: const Card(
                                           child: Padding(
-                                            padding: const EdgeInsets.all(30.0),
-                                            child: Column(children: const <Widget>[
+                                            padding: EdgeInsets.all(30.0),
+                                            child: Column(children: <Widget>[
                                                                       Image(
                                                                         image: AssetImage("assets/images/chalk_board.png"),
                                                                         height: 80,
