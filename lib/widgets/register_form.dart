@@ -32,6 +32,7 @@ void initState() {
   bool _isRegNo = false;
   bool _isPassword = false;
   final List<String> genders = <String>['MALE', 'FEMALE', 'OTHERS'];
+  final List<String> titles = <String>['Mr', 'Mrs', 'Miss', 'Dr', 'Prof'];
   
   bool _validateEmail(String email) {
     String emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
@@ -70,6 +71,7 @@ Future<void> fetchInstitutions() async {
       _confirmPassword = "",
       student_number = "";
   String _errorMessage = "";
+  late String title = titles.first;
   bool _obscureText = true;
   late String gender = genders.first;
      List<String> _institutions = []; // list of institutions
@@ -86,6 +88,7 @@ Future<void> fetchInstitutions() async {
       "email": email,
        "gender": gender,
       "password": _password,
+      "title": title,
       "phone_number": "+254$_phoneNumber",
       "student_number": student_number,
       "institution_id": _selectedId,
@@ -163,6 +166,31 @@ Future<void> fetchInstitutions() async {
                 )
               : Container(height: 1),
         
+          const SizedBox(
+            height: 10.0,
+          ),     Container(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: title, // Set the selected value
+              onChanged: (String? value) {
+                // This is called when the user selects an item.
+                setState(() {
+                  title = value!;
+                });
+              },
+              items: titles.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
           const SizedBox(
             height: 10.0,
           ),
