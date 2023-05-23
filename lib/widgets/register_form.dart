@@ -1,10 +1,11 @@
 // import 'dart:html';
 
+import 'package:elegant_notification/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import '../utils/apis_list.dart';
 import 'package:checkin/screens/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:elegant_notification/elegant_notification.dart';
 
 class UserRegister extends StatefulWidget {
   const UserRegister({super.key});
@@ -31,6 +32,7 @@ void initState() {
   bool _isPhoneNumber = false;
   bool _isRegNo = false;
   bool _isPassword = false;
+  String verifyPass="";
   final List<String> genders = <String>['MALE', 'FEMALE', 'OTHERS'];
   final List<String> titles = <String>['Mr', 'Mrs', 'Miss', 'Dr', 'Prof'];
   
@@ -73,6 +75,7 @@ Future<void> fetchInstitutions() async {
   String _errorMessage = "";
   late String title = titles.first;
   bool _obscureText = true;
+  bool success=false;
   late String gender = genders.first;
      List<String> _institutions = []; // list of institutions
   late String? _selectedId = _institutions[0].split(":")[1]; 
@@ -98,26 +101,25 @@ Future<void> fetchInstitutions() async {
         _isLastName &&
         _isPhoneNumber &&
         _isRegNo &&
-        _isPassword) {
-          print(data);
-      // post(
-      //     data,
-      //     "api/auth/users/",
-      //     (result, error) => {
-      //           if (result == null)
-      //             {
-      //               setState(() {
-      //                 _errorMessage = error;
-      //               }),
+        _isPassword&&verifyPass=='') {
+      register(
+          data,
+          "api/auth/users/",
+          (result, error) => {
+                if (result == null)
+                  {
+                    setState(() {
+                      _errorMessage = error;
+                    }),
                     
                     
-      //             }
-      //           else{
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(builder: (context) => const HomeScreen()),
-      //           )}
-      //         });
+                  }
+                else{
+                  setState(() {
+                    success=true;
+                    }),
+                }
+              });
     }
   }
 
@@ -150,6 +152,15 @@ Future<void> fetchInstitutions() async {
       key: _formKey,
       child: Column(
         children: <Widget>[
+          success?ElegantNotification.success(
+            title: Text("Registered"),
+            animation: AnimationType.fromTop,
+            notificationPosition: NotificationPosition.center,
+            description: Text("you have successfully registered"),
+            onProgressFinished: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+            ):SizedBox(height: 5,),
           _errorMessage != ""
               ? Container(
                   height: 20,
@@ -164,7 +175,7 @@ Future<void> fetchInstitutions() async {
                         fontWeight: FontWeight.w500),
                   ),
                 )
-              : Container(height: 1),
+              : SizedBox(height: 5,),
         
           const SizedBox(
             height: 10.0,
@@ -449,21 +460,27 @@ Future<void> fetchInstitutions() async {
             controller: confirmPasswordController,
             decoration: InputDecoration(
                 labelText: 'confirm password',
+                errorText: verifyPass!=""?verifyPass:null,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                   gapPadding: 10.0,
                 )),
             obscureText: true,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter confirm password';
-              } else {
-                if (value != _password) {
-                  return 'password does not match';
-                }
+            onChanged: (value) {
+              if (value.isEmpty) {
+                setState(() {
+                  verifyPass='Please enter confirm password';
+                });
+                
+              } else if(value != _password) {
+                setState(() {
+                    verifyPass='password does not match';
+                  });
+              }else{
+                setState(() {
+                    verifyPass='';
+                  });
               }
-
-              return null;
             },
             onEditingComplete: () {
               _confirmPassword = confirmPasswordController.text;

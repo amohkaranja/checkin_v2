@@ -6,7 +6,6 @@ import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/apis_list.dart';
-import 'package:elegant_notification/elegant_notification.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
