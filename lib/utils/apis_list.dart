@@ -103,17 +103,41 @@ Future<bool> fetchDataAndSaveToPrefs() async {
 
 
 void post(dynamic data, String url, Function callback) async {
- 
+   final prefs = await SharedPreferences.getInstance();
+     var token= (prefs.getString("token"));
   var apiUrl = Uri.parse(api + url);
-  var response = await http.post(apiUrl,body: data);
+  var response = await http.post(apiUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':'Bearer ${token!}',
+      },
+      body: jsonEncode(data));
+
   var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
-  if (jsonResponse["success"] == "1"||jsonResponse["success"] == "2") {
+  if (response.statusCode == 201) {
     // ignore: void_checks
     return callback("success", null);
-  }else{
-    callback(null, jsonResponse["message"]);
   }
-  
+  callback(null, jsonResponse["message"]);
+}
+void register(dynamic data, String url, Function callback) async {
+  var apiUrl = Uri.parse(api + url);
+  var response = await http.post(apiUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(data));
+
+  var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
+  if (jsonResponse["responseCode"] == 0) {
+    // ignore: void_checks
+    return callback("success", null);
+  }else if(jsonResponse["responseCode"] == 1){
+    // ignore: void_checks
+    return callback(null,jsonResponse["status_message"]);
+  }else{
+      callback(null, "Error!, Try again later");
+  }
 }
 void postScan(dynamic data, String url, Function callback) async{
   
