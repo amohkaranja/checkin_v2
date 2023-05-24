@@ -24,8 +24,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   }
 bool _isPassword = false;
 bool _loading=false;
-bool _isCurrentPassword = false;
-bool _isConfirmPassword = false;
+final bool _isCurrentPassword = false;
+final bool _isConfirmPassword = false;
 late String _password = "",
 _currentPassword="", 
 _confirmPassowrd="";
@@ -100,7 +100,7 @@ void initState() {
           key: _formKey,
          child: SingleChildScrollView(
            child: Column(children:<Widget> [
-                        Container(
+                        SizedBox(
                     
                     width: double.infinity,
                     child: Card(
@@ -130,8 +130,8 @@ void initState() {
                       decoration: const BoxDecoration(),
                       padding: const EdgeInsets.all(2),
                       child: Text(
-                        "$_errorMessage",
-                        style: TextStyle(
+                        _errorMessage,
+                        style: const TextStyle(
                             color: Colors.red,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
@@ -159,6 +159,7 @@ void initState() {
                           _currentPassword = value;
                       });
                         }
+                        return null;
                       },
                       onSaved: (value) => _currentPassword = value!,
                        onChanged: (value) {
@@ -196,7 +197,7 @@ void initState() {
                       return isPasswordValid(value);
                     }else{
                       return null;
-                    };
+                    }
                   }
                 },
                 onSaved: (value) => _password = value!,
@@ -258,12 +259,12 @@ void initState() {
                     child: Text('Change Password'),
                   ),
                 ),
-                        _loading?  Center(
+                        _loading?  const Center(
                child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(const Color(0xff008346)), 
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xff008346)), 
               ), 
               SizedBox(height: 8),
               Text(

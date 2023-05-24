@@ -106,7 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                     decoration: const BoxDecoration(),
                     padding: const EdgeInsets.all(2),
                     child: Text(
-                      "$_errorMessage",
+                      _errorMessage,
                       style: const TextStyle(
                           color: Colors.red,
                           fontSize: 16,

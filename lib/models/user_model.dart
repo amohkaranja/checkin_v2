@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'dart:ffi'; // to parse JSON
+// to parse JSON
 
 class User {
   final String password;

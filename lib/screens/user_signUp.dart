@@ -14,12 +14,12 @@ class _UserSignUpState extends State<UserSignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Sign Up"),
+        title: const Text("User Sign Up"),
         backgroundColor: const Color(0xff008346),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Card(
               shape: RoundedRectangleBorder(
@@ -45,8 +45,8 @@ class _UserSignUpState extends State<UserSignUp> {
           ),
           SizedBox(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Center(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: const Center(
                 child: Text(
                   "fill the form to register",
                   style: TextStyle(fontStyle: FontStyle.italic),
@@ -55,8 +55,8 @@ class _UserSignUpState extends State<UserSignUp> {
             ),
           ),
           Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: UserRegister())
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: const UserRegister())
         ]),
       ),
     );

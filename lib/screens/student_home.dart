@@ -1,5 +1,3 @@
-import 'package:checkin/models/user_model.dart';
-import 'package:checkin/screens/class_instance.dart';
 import 'package:checkin/screens/class_scan.dart';
 import 'package:checkin/screens/generate_code.dart';
 import 'package:checkin/screens/registered_classes.dart';
@@ -23,7 +21,7 @@ class StudentHomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Card(
               shape: RoundedRectangleBorder(
@@ -65,7 +63,7 @@ class StudentHomeScreen extends StatelessWidget {
                           Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ClassScanII()),
+                          builder: (context) => const ClassScanII()),
                     );
                         },
                 child: const Card(
@@ -167,10 +165,10 @@ class StudentHomeScreen extends StatelessWidget {
                         });
 
                         },
-                                               child: Card(
+                                               child: const Card(
                                                      child: Padding(
-                                                       padding: const EdgeInsets.all(30.0),
-                                                       child: Column(children: const <Widget>[
+                                                       padding: EdgeInsets.all(30.0),
+                                                       child: Column(children: <Widget>[
                                                                                  Image(
                                                                                    image: AssetImage("assets/images/time_machine.png"),
                                                                                    height: 80,
@@ -202,14 +200,14 @@ class StudentHomeScreen extends StatelessWidget {
                           Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => GenerateCode()),
+                          builder: (context) => const GenerateCode()),
                     );
                 },
-                child: Card(
+                child: const Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(30.0),
+                      padding: EdgeInsets.all(30.0),
                       child: Center(
-                        child: Column(children: const <Widget>[
+                        child: Column(children: <Widget>[
                           Image(
                             image: AssetImage("assets/images/blue_qr_code.png"),
                             height: 80,
@@ -239,15 +237,15 @@ class StudentHomeScreen extends StatelessWidget {
                             Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentHomeScreen()),
+                            builder: (context) => const StudentHomeScreen()),
                       );
                           },
-                          child: Image(
+                          child: const Image(
                             image: AssetImage("assets/images/home.png"),
                             height: 40,
                           ),
                         ),
-                        Text("Home")
+                        const Text("Home")
                       ],
                     ),
                     Column(
@@ -257,7 +255,7 @@ class StudentHomeScreen extends StatelessWidget {
                             Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => User_Profile()),
+                            builder: (context) => const User_Profile()),
                       );
                           },
                           child: const Image(

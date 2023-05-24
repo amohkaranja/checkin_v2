@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/user_model.dart';
-import '../utils/apis_list.dart';
 
 class ScannedClasses extends StatefulWidget {
   const ScannedClasses({
@@ -46,25 +45,25 @@ class _ScannedClassesState extends State<ScannedClasses> {
                       height: 60,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             scannedClass.class_date,
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                            style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                           Text(
                             scannedClass.unit_code,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontStyle: FontStyle.italic,
                             ),
                           ),
                           Text(
                             scannedClass.lec_name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontStyle: FontStyle.italic,
                             ),
@@ -77,7 +76,7 @@ class _ScannedClassesState extends State<ScannedClasses> {
                       children: [
                         Text(
                           scannedClass.class_time,
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ],
                     )

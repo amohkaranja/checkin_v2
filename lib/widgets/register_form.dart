@@ -63,7 +63,8 @@ Future<void> fetchInstitutions() async {
      _institutions= (prefs.getStringList("schools")??[]);
 
 }
-  late String _username = "",
+bool _loading=false;
+  late String 
       _password = "",
       first_name = "",
       last_name = "",
@@ -81,6 +82,7 @@ Future<void> fetchInstitutions() async {
   late String? _selectedId = _institutions[0].split(":")[1]; 
 
   submit() {
+    _loading=true;
     setState(() {
       _errorMessage = "";
     });
@@ -106,6 +108,7 @@ Future<void> fetchInstitutions() async {
           data,
           "api/auth/users/",
           (result, error) => {
+            _loading=false,
                 if (result == null)
                   {
                     setState(() {
@@ -153,14 +156,14 @@ Future<void> fetchInstitutions() async {
       child: Column(
         children: <Widget>[
           success?ElegantNotification.success(
-            title: Text("Registered"),
+            title: const Text("Registered"),
             animation: AnimationType.fromTop,
             notificationPosition: NotificationPosition.center,
-            description: Text("you have successfully registered"),
+            description: const Text("you have successfully registered"),
             onProgressFinished: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
             },
-            ):SizedBox(height: 5,),
+            ):const SizedBox(height: 5,),
           _errorMessage != ""
               ? Container(
                   height: 20,
@@ -175,7 +178,7 @@ Future<void> fetchInstitutions() async {
                         fontWeight: FontWeight.w500),
                   ),
                 )
-              : SizedBox(height: 5,),
+              : const SizedBox(height: 5,),
         
           const SizedBox(
             height: 10.0,
@@ -380,7 +383,7 @@ Future<void> fetchInstitutions() async {
                       });
                     },
                   )
-                : Loading(),
+                : const Loading(),
           ),
           const SizedBox(
             height: 10.0,
@@ -494,15 +497,16 @@ Future<void> fetchInstitutions() async {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xff008346),
             ),
-            onPressed: () {
+            onPressed:!_loading? () {
               
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 submit();
                 // Use _username and _password to log in
               }
-            },
-            child: const Text('Submit'),
+            }:null,
+            
+            child: const Text('Submit')
           ),
         ],
       ),
@@ -511,6 +515,8 @@ Future<void> fetchInstitutions() async {
 }
 
 class Loading extends StatelessWidget {
+  const Loading({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Stack(
