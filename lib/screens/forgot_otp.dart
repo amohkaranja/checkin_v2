@@ -53,12 +53,13 @@ class _OtpPageState extends State<ForgotOtpPage> {
                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ResetPassword()),
+                        builder: (context) => const ResetPassword()),
                   )
           }
       });
     
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
@@ -73,7 +74,7 @@ class _OtpPageState extends State<ForgotOtpPage> {
       SingleChildScrollView(
         child: Column(
           children: [
-              Container(
+              SizedBox(
             width: double.infinity,
             child: Card(
               shape: RoundedRectangleBorder(
@@ -98,7 +99,7 @@ class _OtpPageState extends State<ForgotOtpPage> {
               ),
             ),
           ),
-          Center(
+          const Center(
             child: Column(
               children: [
                 Text("Email Validation",style: TextStyle(fontWeight: FontWeight.bold)),
@@ -124,8 +125,8 @@ class _OtpPageState extends State<ForgotOtpPage> {
                       decoration: const BoxDecoration(),
                       padding: const EdgeInsets.all(2),
                       child: Text(
-                        "$_errorMessage",
-                        style: TextStyle(
+                        _errorMessage,
+                        style: const TextStyle(
                             color: Colors.red,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
@@ -133,8 +134,8 @@ class _OtpPageState extends State<ForgotOtpPage> {
                     )
                   : Container(height: 1),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 40),
-            child: Text(email,style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue))),
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Text(email,style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.blue))),
             Center(
               child: OTPTextField(
                   controller: otpController,
@@ -145,7 +146,7 @@ class _OtpPageState extends State<ForgotOtpPage> {
                   fieldWidth: 45,
                   fieldStyle: FieldStyle.box,
                   outlineBorderRadius: 15,
-                  style: TextStyle(fontSize: 17),
+                  style: const TextStyle(fontSize: 17),
                   onChanged: (pin) {
                     //  setState(() {
                     //       error="";
@@ -156,12 +157,12 @@ class _OtpPageState extends State<ForgotOtpPage> {
                   }),
             ),
       
-                     loading?  Center(
+                     loading?  const Center(
                child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(const Color(0xff008346)), 
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xff008346)), 
               ), 
               SizedBox(height: 8),
               Text(

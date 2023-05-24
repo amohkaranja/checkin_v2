@@ -96,7 +96,7 @@ postScan(data, url, (result, error) => {
           children: [
                Expanded(
                 flex: 1,
-                 child: Container(
+                 child: SizedBox(
                            width: double.infinity,
                            child: Card(
                              shape: RoundedRectangleBorder(
@@ -134,7 +134,7 @@ postScan(data, url, (result, error) => {
                       decoration: const BoxDecoration(),
                       padding: const EdgeInsets.all(2),
                       child: Text(
-                        "$_errorMessage",
+                        _errorMessage,
                         style: const TextStyle(
                             color: Colors.red,
                             fontSize: 16,

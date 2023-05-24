@@ -30,11 +30,11 @@ void initState() {
 
   Future<void> loadProfileData() async {
   final profile = await profileData();
-  final _result = await fetch_Scanned_Registered();
-  print(_result);
+  var result = await fetch_Scanned_Registered();
+  print(result);
    setState(() {
       _profile = profile; // assign the value of profile to _profile
-      result=_result;
+      result=result;
     });
 }
   @override
@@ -51,7 +51,7 @@ void initState() {
       body: SingleChildScrollView(
         child: Column(children:<Widget> [
            
-           Container(
+           SizedBox(
              
             width: double.infinity,
             child: Card(
@@ -77,10 +77,10 @@ void initState() {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Center(child: Column(children:  <Widget>[
-              Text(_profile?.first_name ?? '',style: TextStyle(fontWeight: FontWeight.w600,fontStyle: FontStyle.italic),),
-              Text(_profile?.email?? '',style: TextStyle(fontStyle: FontStyle.italic,color: Colors.blue),),
-              Text(_profile?.regNo??'',style: TextStyle(fontStyle: FontStyle.italic)),
-              Text(_profile?.phone_number?? '',style: TextStyle(fontWeight: FontWeight.w300,fontStyle: FontStyle.italic)),
+              Text(_profile?.first_name ?? '',style: const TextStyle(fontWeight: FontWeight.w600,fontStyle: FontStyle.italic),),
+              Text(_profile?.email?? '',style: const TextStyle(fontStyle: FontStyle.italic,color: Colors.blue),),
+              Text(_profile?.regNo??'',style: const TextStyle(fontStyle: FontStyle.italic)),
+              Text(_profile?.phone_number?? '',style: const TextStyle(fontWeight: FontWeight.w300,fontStyle: FontStyle.italic)),
             ]),),
           ),
      
@@ -113,7 +113,7 @@ void initState() {
                         },
                       child: Column(
                                 children: [
-                                  Text("Classes Registered",style: TextStyle(color: Color(0xff008346)),),
+                                  const Text("Classes Registered",style: TextStyle(color: Color(0xff008346)),),
                                   Text(result['register'].toString())
                                 ],
                               ),
@@ -140,7 +140,7 @@ void initState() {
                         },
                       child: Column(
                                 children:  [
-                                  Text("Classes signed",style: TextStyle(color: Color(0xff008346))),
+                                  const Text("Classes signed",style: TextStyle(color: Color(0xff008346))),
                                   Text(result['scan'].toString())
                                 ],
                               ),
@@ -169,10 +169,10 @@ void initState() {
                     //       builder: (context) => Account_Edit()),
                     // );
                         },
-                          child: Column(
+                          child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                             Text("Account",style: TextStyle(fontWeight: FontWeight.w600),),
                             Text("Edit personal information",style: TextStyle(fontWeight: FontWeight.w300,fontStyle: FontStyle.italic))
                           ],),
@@ -188,17 +188,17 @@ void initState() {
                           Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChangePassword()),
+                          builder: (context) => const ChangePassword()),
                     );
                         },
-              child: Row(
+              child: const Row(
                 children: [
-                  const Image(
+                  Image(
                           image: AssetImage("assets/images/key.png"),
                           height: 40,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30.0,),
+                          padding: EdgeInsets.symmetric(horizontal: 30.0,),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -210,20 +210,20 @@ void initState() {
                 ],
               ),
             ),
-          ), Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+          ), const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
             child: Row(
               children: [
-                const Image(
+                Image(
                         image: AssetImage("assets/images/acknowledgement.png"),
                         height: 40,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0,),
+                        padding: EdgeInsets.symmetric(horizontal: 30.0,),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                           
                           Text("Acknowledgement",style: TextStyle(fontWeight: FontWeight.w600),),
                           Text("Public testers and appreciation list",style: TextStyle(fontWeight: FontWeight.w300,fontStyle: FontStyle.italic))
@@ -234,14 +234,14 @@ void initState() {
           ),  Card(child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(children:  <Widget>[
-                  Expanded(child: Center(child: Text("Check-In V 1.0"))),
+                  const Expanded(child: Center(child: Text("Check-In V 1.0"))),
                 
                   GestureDetector(
                     onTap: () {
                       logout();
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
                     },
-                    child: Image(image: AssetImage("assets/images/exit.png"),
+                    child: const Image(image: AssetImage("assets/images/exit.png"),
                                 height: 40,
                               ),
                   )],),
@@ -261,15 +261,15 @@ void initState() {
                           Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StudentHomeScreen()),
+                          builder: (context) => const StudentHomeScreen()),
                     );
                         },
-                        child: Image(
+                        child: const Image(
                           image: AssetImage("assets/images/home.png"),
                           height: 40,
                         ),
                       ),
-                      Text("Home")
+                      const Text("Home")
                     ],
                   ),
                   Column(
@@ -279,7 +279,7 @@ void initState() {
                           Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => User_Profile()),
+                          builder: (context) => const User_Profile()),
                     );
                         },
                         child: const Image(

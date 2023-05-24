@@ -33,7 +33,7 @@ class _OtpPageState extends State<OtpPage> {
   void initState() {
     super.initState();
     loaduserdata();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
     if (_countdown > 0) {
       setState(() {
         _countdown--;
@@ -66,7 +66,7 @@ class _OtpPageState extends State<OtpPage> {
         Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomeScreen()),
+                        builder: (context) => const HomeScreen()),
                   );
   }
   resendOtp(){
@@ -80,7 +80,7 @@ class _OtpPageState extends State<OtpPage> {
             errorStat=true
           }
       });
-       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
     if (_countdown > 0) {
       setState(() {
         _countdown--;
@@ -109,13 +109,13 @@ class _OtpPageState extends State<OtpPage> {
                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ResetPassword()),
+                        builder: (context) => const ResetPassword()),
                   )
             }else{
                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StudentHomeScreen()),
+                        builder: (context) => const StudentHomeScreen()),
                   )
             }
              
@@ -128,6 +128,7 @@ class _OtpPageState extends State<OtpPage> {
       });
     }
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
@@ -142,7 +143,7 @@ class _OtpPageState extends State<OtpPage> {
       SingleChildScrollView(
         child: Column(
           children: [
-              Container(
+              SizedBox(
             width: double.infinity,
             child: Card(
               shape: RoundedRectangleBorder(
@@ -170,26 +171,26 @@ class _OtpPageState extends State<OtpPage> {
           Center(
             child: Column(
               children: [
-                Text("Email Validation",style: TextStyle(fontWeight: FontWeight.bold)),
-                Image(
+                const Text("Email Validation",style: TextStyle(fontWeight: FontWeight.bold)),
+                const Image(
                   height:120,
                   image: AssetImage("assets/images/email.png"),
                   fit: BoxFit.contain,
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 60,vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 60,vertical: 20),
                   child: Text("An email was sent to your address to confirm on its validity and" 
-                  "ownership. Please enter the 6-digit code sent to validate your account$otp",style: TextStyle(fontStyle: FontStyle.italic)),
+                  "ownership. Please enter the 6-digit code sent to validate your account$otp",style: const TextStyle(fontStyle: FontStyle.italic)),
                 ),
               ],
             ),
           ),
 
-         errorStat? Padding(padding:EdgeInsets.symmetric(horizontal: 8),child: Text(error,style: TextStyle(color: Colors.red),), ):Container(height: 1),
+         errorStat? Padding(padding:const EdgeInsets.symmetric(horizontal: 8),child: Text(error,style: const TextStyle(color: Colors.red),), ):Container(height: 1),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 40),
-            child: Text(email,style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue))),
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Text(email,style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.blue))),
             Center(
               child: OTPTextField(
                   controller: otpController,
@@ -200,7 +201,7 @@ class _OtpPageState extends State<OtpPage> {
                   fieldWidth: 45,
                   fieldStyle: FieldStyle.box,
                   outlineBorderRadius: 15,
-                  style: TextStyle(fontSize: 17),
+                  style: const TextStyle(fontSize: 17),
                   onChanged: (pin) {
                     //  setState(() {
                     //       error="";
@@ -208,10 +209,10 @@ class _OtpPageState extends State<OtpPage> {
                   },
                   onCompleted: (pin) {
                     submit(pin);
-                    print("Changed: " + pin);
+                    print("Changed: $pin");
                   }),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
                ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff008346),
@@ -227,27 +228,27 @@ class _OtpPageState extends State<OtpPage> {
               child:  Text( _countdown > 0 ? '$_countdown seconds' : 'Request OTP',),
             ),
             Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10,
+            
+            ),
               child: Column(
                 children: [
-                  Text("Not your email?",style: TextStyle(color: Colors.red),),
+                  const Text("Not your email?",style: TextStyle(color: Colors.red),),
                    GestureDetector(
                     onTap: (){
                       clearUser();
                     },
-                    child: Text("Click here to change account",style: TextStyle(color: Colors.red),))
+                    child: const Text("Click here to change account",style: TextStyle(color: Colors.red),))
                 ],
-              ),
-              padding: EdgeInsets.symmetric(vertical: 10,
-            
-            )
+              )
 
             ),
-                     loading?  Center(
+                     loading?  const Center(
                child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(const Color(0xff008346)), 
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xff008346)), 
               ), 
               SizedBox(height: 8),
               Text(

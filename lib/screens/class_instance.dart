@@ -101,7 +101,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                       decoration: const BoxDecoration(),
                       padding: const EdgeInsets.all(2),
                       child: Text(
-                        "$_errorMessage",
+                        _errorMessage,
                         style: const TextStyle(
                             color: Colors.green,
                             fontSize: 16,
@@ -183,7 +183,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                           Expanded(child: !registered? ElevatedButton(onPressed: () {
                             submit();
                             
-                          },child: const Text("Register"),style: ElevatedButton.styleFrom(
+                          },style: ElevatedButton.styleFrom(
   
                       backgroundColor: Colors.green, 
                       elevation: 5, 
@@ -191,11 +191,11 @@ class _ClassInstanceState extends State<ClassInstance> {
                         borderRadius: BorderRadius.circular(10),
                     ),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // button padding
-                ),
+                ),child: const Text("Register"),
               ):ElevatedButton(onPressed: () {
                             home();
                             
-                          },child: const Text("Ok"),style: ElevatedButton.styleFrom(
+                          },style: ElevatedButton.styleFrom(
   
                       backgroundColor: Colors.green, 
                       elevation: 5, 
@@ -203,7 +203,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                         borderRadius: BorderRadius.circular(10),
                     ),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // button padding
-                ),
+                ),child: const Text("Ok"),
               )
               ),
               const Spacer(),
@@ -214,7 +214,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                           builder: (context) => const StudentHomeScreen()),
                     );
                             
-                          },child: const Text("Cancel"),style: ElevatedButton.styleFrom(
+                          },style: ElevatedButton.styleFrom(
   
                       backgroundColor: Colors.red, 
                       elevation: 5, 
@@ -222,7 +222,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                         borderRadius: BorderRadius.circular(10),
                     ),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // button padding
-                ),)):Container(height: 1),
+                ),child: const Text("Cancel"),)):Container(height: 1),
                         ],
                       )
                     ],

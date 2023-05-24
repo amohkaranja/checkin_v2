@@ -30,16 +30,16 @@ void login(data, callback) async {
   // ignore: avoid_print
   if (jsonResponse["responseCode"] == 0) {
     
-    AuthToken token = await AuthToken.fromJson(jsonResponse['data']);
+    AuthToken token = AuthToken.fromJson(jsonResponse['data']);
     var url = Uri.parse("${api}api/auth/users/me"); 
     var newresponse=  await http.get(url,headers:  <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':'Bearer ${token.access!}',
+        'Authorization':'Bearer ${token.access}',
       },);
   // print(response);
   var newjsonResponse = convert.jsonDecode(newresponse.body) as Map<String, dynamic>;
   print(newjsonResponse['data']);
-  UserModel user = await UserModel.fromJson(newjsonResponse['data']);
+  UserModel user = UserModel.fromJson(newjsonResponse['data']);
     prefs.setString('access',token.access); 
     prefs.setString('refresh',token.refresh); 
     prefs.setString('pid',user.pid); 
@@ -85,7 +85,7 @@ Future<bool> fetchDataAndSaveToPrefs() async {
   if (data is List) {
     schools = List.castFrom(data);
   } else if (data is Map) {
-  if (data != null && data["items"] != null) {
+  if (data["items"] != null) {
   data["items"].forEach((item) {
     schools.add("${item['institution_name']}:${item['id']}");
   });
@@ -230,11 +230,11 @@ Future<dynamic> fetch_Scanned_Registered() async{
    final prefs = await SharedPreferences.getInstance();
      var id= (prefs.getString("student_id"));
      var data ={"student_id":id};
-     var url_scanned = Uri.parse("${api}load_history_scanned.php");
-     var url_registred = Uri.parse("${api}load_registered_classes.php");
-     var Scannedresponse = await http.post(url_scanned,body: data);
+     var urlScanned = Uri.parse("${api}load_history_scanned.php");
+     var urlRegistred = Uri.parse("${api}load_registered_classes.php");
+     var Scannedresponse = await http.post(urlScanned,body: data);
      List<dynamic> ScannedData = json.decode(Scannedresponse.body);
-     var Registredresponse = await http.post(url_registred,body: data);
+     var Registredresponse = await http.post(urlRegistred,body: data);
      List<dynamic> RegistredData = json.decode(Registredresponse.body);
      List<RegisteredClass> registeredClassesList = parseResponseJsonData(RegistredData);
      List<ScannedClass> scannedClassesList = parseResponseData(ScannedData);

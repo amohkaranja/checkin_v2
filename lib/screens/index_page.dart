@@ -1,5 +1,4 @@
 import 'package:checkin/screens/login_page.dart';
-import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

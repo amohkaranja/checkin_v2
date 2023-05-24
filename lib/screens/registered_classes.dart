@@ -40,7 +40,7 @@ class _RegisteredClassesState extends State<RegisteredClasses> {
                         image: AssetImage("assets/images/chalk_board.png"),
                         height: 60,
                       ),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      Padding(padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,14 +48,14 @@ class _RegisteredClassesState extends State<RegisteredClasses> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(registeredClass.unit_code,style: TextStyle(fontWeight: FontWeight.bold),),
-                              SizedBox(width: 100),
-                              Text(registeredClass.date_reg,style: TextStyle(fontSize: 14),)
+                              Text(registeredClass.unit_code,style: const TextStyle(fontWeight: FontWeight.bold),),
+                              const SizedBox(width: 100),
+                              Text(registeredClass.date_reg,style: const TextStyle(fontSize: 14),)
                             ],
                           ),
-                          SizedBox(height: 5,),
-                           Row(children: [Text(registeredClass.unit_name,style: TextStyle(fontStyle: FontStyle.italic),)],),
-                            SizedBox(height: 10,),
+                          const SizedBox(height: 5,),
+                           Row(children: [Text(registeredClass.unit_name,style: const TextStyle(fontStyle: FontStyle.italic),)],),
+                            const SizedBox(height: 10,),
                             Row(children: [Text(registeredClass.lec_name)],)
                         ],
                       ),

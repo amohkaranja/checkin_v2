@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import '../models/user_model.dart';
 import '../utils/apis_list.dart';
 
@@ -38,7 +37,7 @@ void initState() {
           width: double.infinity,
         padding: const EdgeInsets.all(16),
         child: Column(children: [
-            Container(
+            SizedBox(
             width: double.infinity,
             child: Card(
               shape: RoundedRectangleBorder(

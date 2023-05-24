@@ -1,4 +1,3 @@
-import 'package:checkin/screens/otp_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,7 +48,7 @@ class _EmailValidationState extends State<EmailValidation> {
                   saveEmail(),
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ForgotOtpPage()),
+                  MaterialPageRoute(builder: (context) => const ForgotOtpPage()),
                 )
                 }
               });
@@ -76,7 +75,7 @@ class _EmailValidationState extends State<EmailValidation> {
       ),
       body: Column(
         children: [
-                 Container(
+                 SizedBox(
              
             width: double.infinity,
             child: Card(
@@ -162,12 +161,12 @@ class _EmailValidationState extends State<EmailValidation> {
               },
               child: const Text('Submit'),
             ),
-                  _loading?  Center(
+                  _loading?  const Center(
   child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
-    children: const [
+    children: [
       CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(const Color(0xff008346)), 
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xff008346)), 
       ), 
       SizedBox(height: 8),
       Text(
