@@ -23,7 +23,7 @@ class _ClassScanIIState extends State<ClassScanII> {
   bool isFrontCamera=false;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'Qr');
  submit(Code){
-    var data={"student_id":_profile!.id,"qr_code":Code};
+    var data={"student_id":_profile!.classes_registered,"qr_code":Code};
     var url="student_class_scan.php";
       setState(() {
       _errorMessage = "";

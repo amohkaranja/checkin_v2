@@ -38,7 +38,6 @@ void login(data, callback) async {
       },);
   // print(response);
   var newjsonResponse = convert.jsonDecode(newresponse.body) as Map<String, dynamic>;
-  print(newjsonResponse['data']);
   UserModel user = UserModel.fromJson(newjsonResponse['data']);
     prefs.setString('access',token.access); 
     prefs.setString('refresh',token.refresh); 
@@ -59,17 +58,16 @@ void logout() async{
 
 
 Future<Profile> profileData() async {
-  var profile= Profile();
    final prefs = await SharedPreferences.getInstance();
-  profile.id= prefs.getString('student_id')!;
-  profile.first_name = prefs.getString('firstname')!;
-  profile.last_name= prefs.getString('lastname')!;
- profile.email= prefs.getString('email')!;
-  profile.phone_number = prefs.getString('phone')!;
-  profile.regNo = prefs.getString('regNo')!;
-  profile.student_profile = prefs.getString('student_profile')!;
-  String? emailValidation = prefs.getString('email_validation');
-  profile.password=prefs.getString('password')!;
+   var token= prefs.getString('access')!;
+   var pid= prefs.getString('pid')!;
+   var url = Uri.parse("${api}api/v1/platform/students/?user_pid=$pid"); 
+    var response=  await http.get(url,headers:  <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':'Bearer ${token}',
+      },);
+  var result = convert.jsonDecode(response.body) as Map<String, dynamic>;
+  Profile profile = Profile.fromJson(result['items'][0]);
     return profile;
 
 }
