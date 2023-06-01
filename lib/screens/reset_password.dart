@@ -48,7 +48,7 @@ void initState() {
       _errorMessage = "";
      _loading=true;
     });
-        var data= {"new_password":_password,"account":"2","shared_id":_profile!.id};
+        var data= {"new_password":_password,"account":"2","shared_id":_profile!.classes_registered};
     var url= 'update_password.php';
          Patch(data, url, (result,error)=>{
     

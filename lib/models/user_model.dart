@@ -47,9 +47,28 @@ class Profile{
   late String email;
   late String phone_number;
   late String regNo;
-  late String id;
-  late String student_profile;
-  late String password;
+  late int classes_registered;
+  late int classes_scanned;
+  late int sessions_registered;
+
+  Profile({required this.first_name,required this.last_name,
+  required this.email,required this.phone_number,
+  required this.regNo,required this.classes_registered,
+  required this.classes_scanned, required this.sessions_registered
+  });
+
+  factory Profile.fromJson(Map<String, dynamic> json){
+    return Profile(
+          first_name:json['first_name'] , 
+          last_name:json['last_name'] , 
+          email:json['email'] , 
+          regNo:json['student_number'] , 
+          phone_number:json['phone_number'] , 
+          classes_registered:json['classes_registered'] , 
+          classes_scanned:json['classes_scanned'] , 
+          sessions_registered:json['sessions_registered'] , 
+    );
+  }
 }
 
 class Institution {

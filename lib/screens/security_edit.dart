@@ -49,9 +49,9 @@ void initState() {
       _errorMessage = "";
      _loading=true;
     });
-        var data= {"new_password":_password,"account":"2","shared_id":_profile!.id};
+        var data= {"new_password":_password,"account":"2","shared_id":_profile!.classes_registered};
     var url= 'update_password.php';
-    if(_currentPassword!=_profile!.password){
+    if(_currentPassword!=_profile!.classes_registered){
           setState(() {
                   _loading=false;
                   _errorMessage = "Invalid current password";

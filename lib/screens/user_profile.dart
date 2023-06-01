@@ -30,11 +30,8 @@ void initState() {
 
   Future<void> loadProfileData() async {
   final profile = await profileData();
-  var result = await fetch_Scanned_Registered();
-  print(result);
    setState(() {
-      _profile = profile; // assign the value of profile to _profile
-      result=result;
+      _profile = profile; 
     });
 }
   @override
@@ -114,7 +111,7 @@ void initState() {
                       child: Column(
                                 children: [
                                   const Text("Classes Registered",style: TextStyle(color: Color(0xff008346)),),
-                                  Text(result['register'].toString())
+                                  Text(_profile?.classes_registered.toString() ?? '')
                                 ],
                               ),
                     ),GestureDetector(
@@ -141,7 +138,7 @@ void initState() {
                       child: Column(
                                 children:  [
                                   const Text("Classes signed",style: TextStyle(color: Color(0xff008346))),
-                                  Text(result['scan'].toString())
+                                  Text(_profile?.classes_scanned.toString() ?? '')
                                 ],
                               ),
                     )
