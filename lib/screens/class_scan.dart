@@ -1,6 +1,7 @@
 import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_model.dart';
 import '../utils/apis_list.dart';
@@ -22,9 +23,11 @@ class _ClassScanIIState extends State<ClassScanII> {
    bool isFlashon= false;
   bool isFrontCamera=false;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'Qr');
+ 
  submit(Code){
-    var data={"student_id":_profile!.classes_registered,"qr_code":Code};
-    var url="student_class_scan.php";
+  print(Code);
+    var data={"lecture_code":Code,"verification_type":"QRCODE"};
+    var url="api/v1/platform/lecture_attendance";
       setState(() {
       _errorMessage = "";
       _loading=true;
@@ -198,7 +201,11 @@ void _onQRViewCreated(QRViewController controller){
       this.controller=controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      submit(scanData);
+        if (mounted) {
+      controller.dispose();
+       submit(scanData.code);
+    }
+     
      });
 }
 }

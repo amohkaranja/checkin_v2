@@ -30,6 +30,7 @@ void login(data, callback) async {
   // ignore: avoid_print
   if (jsonResponse["responseCode"] == 0) {
     
+     prefs.setString('Id',jsonResponse['user']['id']); 
     AuthToken token = AuthToken.fromJson(jsonResponse['data']);
     var url = Uri.parse("${api}api/auth/users/me"); 
     var newresponse=  await http.get(url,headers:  <String, String>{
@@ -139,10 +140,21 @@ void register(dynamic data, String url, Function callback) async {
 }
 void postScan(dynamic data, String url, Function callback) async{
   
-  var apiUrl = Uri.parse(api + url);
-  var response = await http.post(apiUrl,body: data);
+   final prefs = await SharedPreferences.getInstance();
+     var token= (prefs.getString("token"));
+      var id= (prefs.getString("Id"));
+      data["student_id"] = id;
+   var apiUrl = Uri.parse(api + url);
+   print(data);
+  var response = await http.post(apiUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':'Bearer ${token!}',
+      },
+      body: jsonEncode(data));
   
   var jsonResponse =  await convert.jsonDecode(response.body) as Map<String, dynamic>;
+  print(jsonResponse["status_message"]);
   switch(jsonResponse["success"]) {
   case '1':
     callback("success", null);
