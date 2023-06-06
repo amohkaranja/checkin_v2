@@ -1,4 +1,5 @@
 import 'package:checkin/screens/index_page.dart';
+import 'package:checkin/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: const Color(0xff00836F)),
       ),
-      home: const IndexPage(),
+      home: const HomeScreen(),
     );
   }
 }
