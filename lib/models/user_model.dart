@@ -85,59 +85,53 @@ class Institution {
   }
 }
 class ClassModel{
+    late String student_id;
+    late String session_id;
+    late String student_session_id;
+    late String student_session_unit_id;
     late String class_id;
+    late String lecture_id;
+    late String lecture_class_id;
+    late String lecture_code;
+    late String lecturer_id;
+    late String lecturer_first_name;
+    late String lecturer_last_name;
     late String unit_id;
-    late String lec_id;
-    late String class_sem;
-    late String class_year;
-    late String class_start;
-    late String date_start;
-    late String time_start;
-    late String class_stop;
-    late String date_stop;
-    late String time_stop;
-    late String status;
-    late String class_code;
     late String unit_name;
-    late String unit_code;
-    late String lec_name;
+    late String semester;
+    late String verification_type;
     ClassModel({ 
+      required this.student_id, 
+      required this.session_id,
+      required this.student_session_id,
+      required this.student_session_unit_id, 
       required this.class_id, 
+      required this.lecture_id,
+      required this.lecture_class_id,
+      required this.lecture_code,
+      required this.lecturer_first_name,
+      required this.lecturer_last_name,
       required this.unit_id,
-      required this.lec_id,
-      required this.class_sem, 
-      required this.class_year, 
-      required this.class_start,
-      required this.date_start,
-      required this.time_start,
-      required this.class_stop,
-      required this.date_stop,
-      required this.time_stop,
-      required this.status,
-      required this.class_code,
-      required this.unit_code,
       required this.unit_name,
-      required this.lec_name
-
+      required this.semester,
+      required this.verification_type,
      });
     factory ClassModel.fromJson(Map<String, dynamic> json) {
     return ClassModel(
+      student_id: json['student_id'],
+      session_id: json['session_id'],
+      student_session_id: json['student_session_id'],
+      student_session_unit_id: json['student_session_unit_id'],
       class_id: json['class_id'],
+      lecture_id: json['lecture_id'],
+      lecture_class_id: json['lecture_class_id'],
+      lecture_code: json['lecture_code'],
+      lecturer_first_name: json['lecturer_first_name'],
+      lecturer_last_name: json['lecturer_last_name'],
       unit_id: json['unit_id'],
-      lec_id: json['lec_id'],
-      class_sem: json['class_sem'],
-      class_year: json['class_year'],
-      class_start: json['class_start'],
-      date_start: json['date_start'],
-      time_start: json['time_start'],
-      class_stop: json['class_stop'],
-      date_stop: json['date_stop'],
-      class_code: json['class_code'],
-      status: json['status'],
-      unit_code: json['unit_code'],
       unit_name: json['unit_name'],
-      lec_name: json['lec_name'],
-      time_stop: json['time_stop'],
+      semester: json['semester'],
+      verification_type: json['verification_type']
 
     );
   }
