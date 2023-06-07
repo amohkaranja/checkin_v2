@@ -6,14 +6,10 @@ import '../utils/apis_list.dart';
 class ClassInstance extends StatefulWidget {
   const ClassInstance({
     Key? key,
-    required this.model,
-    required this.stdId,
-    required this.qrData,
+    required this.model
   }) : super(key: key);
 
   final ClassModel model;
-  final String stdId;
-  final String qrData;
   @override
   _ClassInstanceState createState() => _ClassInstanceState();
 }
@@ -29,11 +25,24 @@ class _ClassInstanceState extends State<ClassInstance> {
         );
    }              
   void submit() {
-    var data = {
-      "student_id": widget.stdId,
-      "qr_code": widget.qrData,
+    
+    var url = "api/v1/platform/lecture_attendances/register_and_sign";
+    var data={
+  "class_id":widget.model.class_id,
+   "lecture_class_id": widget.model.lecture_class_id,
+   "lecture_code": widget.model.lecture_code,
+   "lecture_id": widget.model.lecture_id,
+   "lecturer_first_name": widget.model.lecturer_first_name,
+    "lecturer_last_name":widget.model.lecturer_last_name,
+   "session_id": widget.model.session_id,
+    "student_id":widget.model.student_id,
+    "student_session_id":widget.model.student_session_id,
+   "student_session_unit_id": widget.model.student_session_unit_id,
+   "unit_id": widget.model.unit_id,
+    "unit_name":widget.model.unit_name,
+    "verification_type":widget.model.verification_type,
+    "semester":widget.model.semester
     };
-    var url = "student_register_new_class.php";
     setState(() {
       _errorMessage = "";
       _loading = true;
@@ -115,7 +124,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                         children: [
                           const Expanded(child: Text("Lecturer")),
 
-                          Expanded(child: Text(widget.model.lec_name,style:
+                          Expanded(child: Text(widget.model.lecturer_first_name+" "+widget.model.lecturer_last_name,style:
                            const TextStyle( fontSize: 14,
                            fontWeight: FontWeight.bold,
 
@@ -135,19 +144,19 @@ class _ClassInstanceState extends State<ClassInstance> {
                            ),))
                         ],
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Expanded(child: Text("Unit Code")),
-                          Expanded(child: Text(widget.model.unit_code,style: const TextStyle( fontSize: 14,
-                           fontWeight: FontWeight.bold,
+                      // const SizedBox(
+                      //   height: 15,
+                      // ),
+                      //  Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     const Expanded(child: Text("Unit Code")),
+                      //     Expanded(child: Text(widget.model.unit_id,style: const TextStyle( fontSize: 14,
+                      //      fontWeight: FontWeight.bold,
                            
-                           ),))
-                        ],
-                      ),
+                      //      ),))
+                      //   ],
+                      // ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -155,7 +164,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Expanded(child: Text("Semester")),
-                          Expanded(child: Text(widget.model.class_sem,style: const TextStyle( fontSize: 14,
+                          Expanded(child: Text(widget.model.semester,style: const TextStyle( fontSize: 14,
                            fontWeight: FontWeight.bold,
                            
                            ),))
@@ -164,20 +173,20 @@ class _ClassInstanceState extends State<ClassInstance> {
                       const SizedBox(
                         height: 15,
                       ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Expanded(child: Text("Year")),
-                          Expanded(child: Text(widget.model.class_year,style: const TextStyle( fontSize: 14,
-                           fontWeight: FontWeight.bold,
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     const Expanded(child: Text("Year")),
+                      //     Expanded(child: Text(widget.model.semester,style: const TextStyle( fontSize: 14,
+                      //      fontWeight: FontWeight.bold,
                            
-                           ),))
-                        ],
+                      //      ),))
+                      //   ],
                         
-                      ),
-                       const SizedBox(
-                        height: 50,
-                      ),
+                      // ),
+                      //  const SizedBox(
+                      //   height: 50,
+                      // ),
                       Row(
                         children: [
                           Expanded(child: !registered? ElevatedButton(onPressed: () {
@@ -191,7 +200,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                         borderRadius: BorderRadius.circular(10),
                     ),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // button padding
-                ),child: const Text("Register"),
+                ),child: const Text("Register",style: TextStyle( fontSize: 10)),
               ):ElevatedButton(onPressed: () {
                             home();
                             
@@ -222,7 +231,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                         borderRadius: BorderRadius.circular(10),
                     ),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // button padding
-                ),child: const Text("Cancel"),)):Container(height: 1),
+                ),child: const Text("Cancel",style: TextStyle( fontSize: 10)),)):Container(height: 1),
                         ],
                       )
                     ],

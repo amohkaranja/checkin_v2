@@ -26,8 +26,8 @@ class _ClassScanIIState extends State<ClassScanII> {
  
  submit(Code){
   print(Code);
-    var data={"lecture_code":Code,"verification_type":"QRCODE"};
-    var url="api/v1/platform/lecture_attendance";
+    var data={"lecture_code":"YrLRp2zP9isWcYGpl852I7A_tO523BLl6D2zp7pJLWuR4_DTNvD_2_RSeUhJIZUmAbeyKuXrmeqSeG737dVTQKIWIUJ-fqRcsGU=","verification_type":"QRCODE"};
+    var url="api/v1/platform/lecture_attendances";
       setState(() {
       _errorMessage = "";
       _loading=true;
@@ -47,7 +47,7 @@ postScan(data, url, (result, error) => {
                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ClassInstance(model:error["model"],stdId:error["stdId"],qrData:error["qrData"],)),
+                        builder: (context) => ClassInstance(model:error["model"])),
                   )
               
                 }

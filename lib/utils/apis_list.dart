@@ -30,7 +30,6 @@ void login(data, callback) async {
   // ignore: avoid_print
   if (jsonResponse["responseCode"] == 0) {
     
-     prefs.setString('Id',jsonResponse['user']['id']); 
     AuthToken token = AuthToken.fromJson(jsonResponse['data']);
     var url = Uri.parse("${api}api/auth/users/me"); 
     var newresponse=  await http.get(url,headers:  <String, String>{
@@ -42,7 +41,14 @@ void login(data, callback) async {
   UserModel user = UserModel.fromJson(newjsonResponse['data']);
     prefs.setString('access',token.access); 
     prefs.setString('refresh',token.refresh); 
-    prefs.setString('pid',user.pid); 
+    prefs.setString('pid',user.pid);
+    var newurl = Uri.parse("${api}api/v1/platform/students/?user_pid=${user.pid}"); 
+    var newresponse2 =  await http.get(newurl,headers:  <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':'Bearer ${token.access}',
+      },); 
+  var newjsonResponse2 = convert.jsonDecode(newresponse2.body) as Map<String, dynamic>;
+  prefs.setString('student_id',newjsonResponse2['items'][0]['id']); 
         // ignore: void_check
      callback("Success", null);
   } else if(jsonResponse["responseCode"] == 1){
@@ -103,7 +109,7 @@ Future<bool> fetchDataAndSaveToPrefs() async {
 
 void post(dynamic data, String url, Function callback) async {
    final prefs = await SharedPreferences.getInstance();
-     var token= (prefs.getString("token"));
+     var token= (prefs.getString("access"));
   var apiUrl = Uri.parse(api + url);
   var response = await http.post(apiUrl,
       headers: <String, String>{
@@ -141,35 +147,33 @@ void register(dynamic data, String url, Function callback) async {
 void postScan(dynamic data, String url, Function callback) async{
   
    final prefs = await SharedPreferences.getInstance();
-     var token= (prefs.getString("token"));
-      var id= (prefs.getString("Id"));
+     var token= (prefs.getString("access"));
+      var id= (prefs.getString("student_id"));
       data["student_id"] = id;
    var apiUrl = Uri.parse(api + url);
-   print(data);
   var response = await http.post(apiUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization':'Bearer ${token!}',
       },
       body: jsonEncode(data));
-  
+
   var jsonResponse =  await convert.jsonDecode(response.body) as Map<String, dynamic>;
-  print(jsonResponse["status_message"]);
-  switch(jsonResponse["success"]) {
-  case '1':
+  switch(jsonResponse["responseCode"]) {
+  case 0:
     callback("success", null);
     break;
-  case '2':
-    callback("2", {"model":ClassModel.fromJson(jsonResponse["scans"][0]),"stdId":data["student_id"],"qrData":data["qr_code"]});
+  case 2:
+    callback("2", {"model":ClassModel.fromJson(jsonResponse["data"])});
     break;
-  case '3':
-    callback(null, "Already Signed in!");
+  case 3:
+    callback(null, jsonResponse["status_message"]);
     break;
-  case '4':
-    callback(null, "Failed to sign in!. Please try again");
+  case 4:
+    callback(null, jsonResponse["status_message"]);
     break;
-    case '5':
-    callback(null, "Failed to register!. Please try again");
+    case 5:
+    callback(null, jsonResponse["status_message"]);
     break;
 }
 
