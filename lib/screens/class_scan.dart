@@ -26,7 +26,7 @@ class _ClassScanIIState extends State<ClassScanII> {
  
  submit(Code){
   print(Code);
-    var data={"lecture_code":"YrLRp2zP9isWcYGpl852I7A_tO523BLl6D2zp7pJLWuR4_DTNvD_2_RSeUhJIZUmAbeyKuXrmeqSeG737dVTQKIWIUJ-fqRcsGU=","verification_type":"QRCODE"};
+    var data={"lecture_code":Code,"verification_type":"QRCODE"};
     var url="api/v1/platform/lecture_attendances";
       setState(() {
       _errorMessage = "";

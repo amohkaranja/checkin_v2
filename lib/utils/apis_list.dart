@@ -48,8 +48,7 @@ void login(data, callback) async {
         'Authorization':'Bearer ${token.access}',
       },); 
   var newjsonResponse2 = convert.jsonDecode(newresponse2.body) as Map<String, dynamic>;
-  prefs.setString('student_id',newjsonResponse2['items'][0]['id']); 
-        // ignore: void_check
+  prefs.setString('student_id',newjsonResponse2['items'][0]['id']);         // ignore: void_check
      callback("Success", null);
   } else if(jsonResponse["responseCode"] == 1){
     callback(null, "Invalid User or password");

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../utils/apis_list.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class GenerateCode extends StatefulWidget {
   const GenerateCode({super.key});
@@ -63,7 +64,12 @@ void initState() {
             ),
           ),
               Expanded(flex: 4, child: Container(
-            // child: QrImage(data:_profile?.regNo??'',size:250 ,version: QrVersions.auto,),
+             child: QrImageView(
+              data: _profile?.regNo??'',
+              version: QrVersions.auto,
+              size: 200,
+              gapless: false,
+            ),
           )),
         ]),
       ),
