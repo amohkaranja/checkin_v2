@@ -23,6 +23,7 @@ class _IndexPageState extends State<IndexPage> {
      final prefs = await SharedPreferences.getInstance();
     var reg= prefs.getString('regNo');
     if(reg!.isEmpty){
+      // ignore: use_build_context_synchronously
       Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -30,6 +31,7 @@ class _IndexPageState extends State<IndexPage> {
                   );
     }else{
      
+         // ignore: use_build_context_synchronously
          Navigator.push(
                     context,
                     MaterialPageRoute(
