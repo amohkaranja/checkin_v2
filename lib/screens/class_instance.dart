@@ -4,7 +4,8 @@ import 'package:checkin/models/user_model.dart';
 
 import '../utils/apis_list.dart';
 class ClassInstance extends StatefulWidget {
-  const ClassInstance({
+  const ClassInstance
+  ({
     Key? key,
     required this.model
   }) : super(key: key);
@@ -15,52 +16,57 @@ class ClassInstance extends StatefulWidget {
 }
 
 class _ClassInstanceState extends State<ClassInstance> {
+
   String _errorMessage = "";
   bool _loading = false;
   bool registered=false;
-   void home(){
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const StudentHomeScreen()),
-        );
-   }              
+
+  void home(){
+    Navigator.push
+    ( 
+      context,MaterialPageRoute(builder: (context) => const StudentHomeScreen()),
+      );
+  }              
   void submit() {
     
     var url = "api/v1/platform/lecture_attendances/register_and_sign";
     var data={
-  "class_id":widget.model.class_id,
-   "lecture_class_id": widget.model.lecture_class_id,
-   "lecture_code": widget.model.lecture_code,
-   "lecture_id": widget.model.lecture_id,
-   "lecturer_first_name": widget.model.lecturer_first_name,
-    "lecturer_last_name":widget.model.lecturer_last_name,
-   "session_id": widget.model.session_id,
-    "student_id":widget.model.student_id,
-    "student_session_id":widget.model.student_session_id,
-   "student_session_unit_id": widget.model.student_session_unit_id,
-   "unit_id": widget.model.unit_id,
-    "unit_name":widget.model.unit_name,
-    "verification_type":widget.model.verification_type,
-    "semester":widget.model.semester
+      "class_id":widget.model.class_id,
+      "lecture_class_id": widget.model.lecture_class_id,
+      "lecture_code": widget.model.lecture_code,
+      "lecture_id": widget.model.lecture_id,
+      "lecturer_first_name": widget.model.lecturer_first_name,
+      "lecturer_last_name":widget.model.lecturer_last_name,
+      "session_id": widget.model.session_id,
+      "student_id":widget.model.student_id,
+      "student_session_id":widget.model.student_session_id,
+      "student_session_unit_id": widget.model.student_session_unit_id,
+      "unit_id": widget.model.unit_id,
+      "unit_name":widget.model.unit_name,
+      "verification_type":widget.model.verification_type,
+      "semester":widget.model.semester
     };
-    setState(() {
+    setState(() 
+    {
       _errorMessage = "";
       _loading = true;
     });
     // call the postScan method and handle the result
     postScan(data, url, (result, error) {
-      if (result == null) {
-        setState(() {
-          _loading = false;
-          _errorMessage = error ?? "Unknown error occurred.";
-        });
-      } else {
-        setState(() {
-          _loading = false;
-          registered=true;
-          _errorMessage = error ?? "Class registered successfully!";
-        });
-      }
+        if (result == null)
+         {
+          setState(() {
+            _loading = false;
+            _errorMessage = error ?? "Unknown error occurred.";
+          });
+        } else 
+        {
+          setState(() {
+            _loading = false;
+            registered=true;
+            _errorMessage = error ?? "Class registered successfully!";
+          });
+        }
     });
   }
   @override
@@ -70,7 +76,8 @@ class _ClassInstanceState extends State<ClassInstance> {
         title: const Text(
           "Register this class",
           style: TextStyle(
-              fontStyle: FontStyle.italic, fontWeight: FontWeight.w400),
+                fontStyle: FontStyle.italic, fontWeight: FontWeight.w400
+              ),
         ),
         backgroundColor: const Color(0xff008346),
       ),
@@ -190,18 +197,18 @@ class _ClassInstanceState extends State<ClassInstance> {
                       Row(
                         children: [
                           Expanded(child: !registered? ElevatedButton(onPressed: () {
-                            submit();
-                            
-                          },style: ElevatedButton.styleFrom(
-  
-                      backgroundColor: Colors.green, 
-                      elevation: 5, 
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                    ),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // button padding
+                                  submit();
+                                  
+                                },style: ElevatedButton.styleFrom(
+        
+                            backgroundColor: Colors.green, 
+                            elevation: 5, 
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                          ),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // button padding
                 ),child: const Text("Register",style: TextStyle( fontSize: 10)),
-              ):ElevatedButton(onPressed: () {
+                   ):ElevatedButton(onPressed: () {
                             home();
                             
                           },style: ElevatedButton.styleFrom(

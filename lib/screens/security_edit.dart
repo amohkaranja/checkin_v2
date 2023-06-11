@@ -11,22 +11,30 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+
   final _formKey = GlobalKey<FormState>();
+
   TextEditingController currentPasswordController = TextEditingController();
-   TextEditingController passwordController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
   TextEditingController confirmPasswordController = TextEditingController();
+
   bool validatePassword() {
     if (_password == _confirmPassowrd) {
       return true;
-    } else {
+    } else 
+    {
       return false;
     }
   }
-bool _isPassword = false;
-bool _loading=false;
-final bool _isCurrentPassword = false;
-final bool _isConfirmPassword = false;
-late String _password = "",
+  bool _isPassword = false;
+
+  bool _loading = false;
+
+  final bool _isCurrentPassword = false;
+  final bool _isConfirmPassword = false;
+  late String _password = "",
 _currentPassword="", 
 _confirmPassowrd="";
   Profile? _profile; 
@@ -49,15 +57,13 @@ void initState() {
       _errorMessage = "";
      _loading=true;
     });
-        var data= {"new_password":_password,"account":"2","shared_id":_profile!.classes_registered};
-    var url= 'update_password.php';
-    if(_currentPassword!=_profile!.classes_registered){
-          setState(() {
-                  _loading=false;
-                  _errorMessage = "Invalid current password";
-                });
-          }else{
-         Patch(data, url, (result,error)=>{
+    var data= {"new_password":_password,"password":_currentPassword};
+    var url= 'api/auth/users/password/';
+    setState(() {
+            _loading=true;
+          });
+
+    Patch(data, url, (result,error)=>{
     
        if (result == null)
           {
@@ -80,9 +86,7 @@ void initState() {
                   )
                 }
     });
-}
 
-    
   
 }
   @override
