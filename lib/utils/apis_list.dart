@@ -42,6 +42,7 @@ void login(data, callback) async {
     prefs.setString('access',token.access); 
     prefs.setString('refresh',token.refresh); 
     prefs.setString('pid',user.pid);
+    prefs.setString('userId',user.id);
     var newurl = Uri.parse("${api}api/v1/platform/students/?user_pid=${user.pid}"); 
     var newresponse2 =  await http.get(newurl,headers:  <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -180,17 +181,26 @@ void postScan(dynamic data, String url, Function callback) async{
 
 
 void Patch(dynamic data, String url, Function callback) async {
-  var apiUrl = Uri.parse(api + url);
-  
-  var response = await http.post(apiUrl,body: data);
-   print(apiUrl); 
+    final prefs = await SharedPreferences.getInstance();
+     var token=  (prefs.getString("access"));
+      var Id=  (prefs.getString("userId"));
+  var apiUrl = Uri.parse(api + url+Id!);
+  print(url+Id!);
+    var response = await http.patch(apiUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':'Bearer ${token!}',
+      },
+      body: jsonEncode(data));
+
   var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
-  if (jsonResponse["success"] == "2") {
+  if (jsonResponse["responseCode"] == 0) {
     final prefs = await SharedPreferences.getInstance();
      prefs.setString('password',data["new_password"]);
-    return callback("success", null);
+    // ignore: void_checks
+    return callback(jsonResponse["status_message"], null);
   }
-  callback(null, "An error occured during processing.Try later");
+  callback(null, jsonResponse["status_message"]);
 }
 
 void get(String url,Function callback) async{

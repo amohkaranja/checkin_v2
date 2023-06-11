@@ -207,28 +207,8 @@ void initState() {
                 ],
               ),
             ),
-          ), const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
-            child: Row(
-              children: [
-                Image(
-                        image: AssetImage("assets/images/acknowledgement.png"),
-                        height: 40,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30.0,),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                          
-                          Text("Acknowledgement",style: TextStyle(fontWeight: FontWeight.w600),),
-                          Text("Public testers and appreciation list",style: TextStyle(fontWeight: FontWeight.w300,fontStyle: FontStyle.italic))
-                        ],),
-                      )
-              ],
-            ),
-          ),  Card(child: Padding(
+          ), 
+            Card(child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(children:  <Widget>[
                   const Expanded(child: Center(child: Text("Check-In V 1.0"))),
