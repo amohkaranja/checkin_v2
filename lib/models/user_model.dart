@@ -1,5 +1,7 @@
 // to parse JSON
 
+import 'package:flutter/material.dart';
+
 class User {
   final String password;
   final String email;
@@ -231,3 +233,23 @@ class RegisteredClass{
         );
   }
 }
+ColorScheme myColorScheme = const ColorScheme(
+  primary: Color.fromARGB(255, 9, 134, 236), 
+  secondary: Color.fromRGBO(0, 131, 70, 1), 
+  surface: Colors.white, 
+  background: Colors.white, 
+  error: Colors.red, 
+  onPrimary: Color.fromARGB(255, 60, 59, 59), 
+  onSecondary: Color.fromARGB(255, 14, 14, 14), 
+  onSurface: Colors.black, 
+  onBackground: Colors.black, 
+  onError: Colors.white, 
+  brightness: Brightness.light, 
+);
+ThemeData myThemeData = ThemeData(
+  colorScheme: myColorScheme, // Set the custom color scheme
+  textTheme: const TextTheme(
+    headline1: TextStyle(color: Colors.black), // Custom text color for headline1
+    bodyText1: TextStyle(color: Colors.grey), // Custom text color for bodyText1
+  ),
+);

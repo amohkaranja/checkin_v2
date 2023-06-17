@@ -62,7 +62,9 @@ void login(data, callback) async {
 }
 
 void logout() async{
-   print("logout");
+  final prefs = await SharedPreferences.getInstance();
+        prefs.setString('email',''); 
+    prefs.setString('password',''); 
 }
 
 

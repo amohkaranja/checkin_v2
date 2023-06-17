@@ -37,7 +37,7 @@ class _UserSignUpState extends State<UserSignUp> {
                           offset: Offset(0, 3))
                     ]),
                 child: const Image(
-                  image: AssetImage("assets/images/logo_jpg.png"),
+                  image: AssetImage("assets/images/logo.png"),
                   fit: BoxFit.contain,
                 ),
               ),

@@ -120,7 +120,7 @@ void initState() {
                             border: Border.all(color: const Color(0xff008346),width: 2.0),
                               ),
                           child: const Image(
-                            image: AssetImage("assets/images/logo_jpg.png"),
+                            image: AssetImage("assets/images/logo.png"),
                             fit: BoxFit.contain,
                           ),
                         ),
