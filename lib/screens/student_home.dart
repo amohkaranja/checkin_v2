@@ -3,17 +3,56 @@ import 'package:checkin/screens/generate_code.dart';
 import 'package:checkin/screens/registered_classes.dart';
 import 'package:checkin/screens/scanned_classes.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/apis_list.dart';
 import 'user_profile.dart';
-class StudentHomeScreen extends StatelessWidget {
+class StudentHomeScreen extends StatefulWidget {
   const StudentHomeScreen({super.key});
 
+  @override
+  State<StudentHomeScreen> createState() => _StudentHomeScreenState();
+}
+
+class _StudentHomeScreenState extends State<StudentHomeScreen> {
+  late String _mode;
+  late bool modeState ;
+ Future<void> loadTheme() async {
+ final prefs = await SharedPreferences.getInstance();
+     var mode= prefs.getString("themeMode");
+     setState(() {
+       mode==null?_mode="ligt":_mode=mode;
+      mode=="light"?modeState=true:modeState=false;
+     });
+}
+ changeTheme(status) async{
+  final prefs = await SharedPreferences.getInstance();
+  if(status){
+        prefs.setString('themeMode','light');
+  }else{
+    prefs.setString('themeMode','dark');
+  }
+ 
+ }
+
+void initState() {
+  super.initState();
+    loadTheme();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         actions: [
+           IconButton(onPressed: (){
+            setState(() {
+              modeState=!modeState;
+            changeTheme(modeState);
+            });
+          },
+           icon: Icon( modeState? Icons.light_mode:Icons.dark_mode,color: modeState?Colors.white:Colors.black,)),
+        ],
         title: const Text(
-          "My QR Code",
+          "",
           style: TextStyle(
               fontStyle: FontStyle.italic, fontWeight: FontWeight.w400),
         ),
@@ -31,16 +70,16 @@ class StudentHomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: const [
+                    boxShadow:  [
                       BoxShadow(
-                          color: Colors.white,
+                          color: Theme.of(context).primaryColor,
                           spreadRadius: 2,
                           blurRadius: 5,
                           offset: Offset(0, 3))
                     ]),
                 child: const Image(
                   height:120,
-                  image: AssetImage("assets/images/logo_jpg.png"),
+                  image: AssetImage("assets/images/logo.png"),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -52,7 +91,7 @@ class StudentHomeScreen extends StatelessWidget {
             decoration: BoxDecoration(boxShadow: [
               
               BoxShadow(
-                color: Colors.grey.shade300,
+                color: Theme.of(context).primaryColor,
                 spreadRadius: 0.5,
                 blurRadius: 3,
               )
@@ -93,7 +132,7 @@ class StudentHomeScreen extends StatelessWidget {
                              child: Container(
                                 decoration: BoxDecoration(boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.shade300,
+                                    color: Theme.of(context).primaryColor,
                                     spreadRadius: 0.5,
                                     blurRadius: 3,
                                   )
@@ -139,7 +178,7 @@ class StudentHomeScreen extends StatelessWidget {
                              child: Container(
                                            decoration: BoxDecoration(boxShadow: [
                                              BoxShadow(
-                                               color: Colors.grey.shade300,
+                                               color: Theme.of(context).primaryColor,
                                                spreadRadius: 0.5,
                                                blurRadius: 3,
                                              )
@@ -165,20 +204,20 @@ class StudentHomeScreen extends StatelessWidget {
                         });
 
                         },
-                                               child: const Card(
-                                                     child: Padding(
-                                                       padding: EdgeInsets.all(30.0),
-                                                       child: Column(children: <Widget>[
-                                                                                 Image(
-                                                                                   image: AssetImage("assets/images/time_machine.png"),
-                                                                                   height: 80,
-                                                                                   fit: BoxFit.contain,
-                                                                                 ),
-                                                                                 Text("Scanned Activities")
-                                                       ]),
-                                                     ),
-                                               ),
-                                             ),
+                        child: const Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(30.0),
+                                child: Column(children: <Widget>[
+                                                          Image(
+                                                            image: AssetImage("assets/images/time_machine.png"),
+                                                            height: 80,
+                                                            fit: BoxFit.contain,
+                                                          ),
+                                                          Text("Scanned Activities")
+                                ]),
+                              ),
+                        ),
+                      ),
                              ),
                            ),
                          ],
@@ -189,7 +228,7 @@ class StudentHomeScreen extends StatelessWidget {
             decoration: BoxDecoration(boxShadow: [
               
               BoxShadow(
-                color: Colors.grey.shade300,
+                color: Theme.of(context).primaryColor,
                 spreadRadius: 0.5,
                 blurRadius: 3,
               )

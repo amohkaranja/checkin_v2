@@ -82,7 +82,8 @@ postScan(data, url, (result, error) => {
              controller?.flipCamera();
             });
 
-          }, icon: Icon(Icons.camera_front,color:isFrontCamera?Colors.blue: Colors.white,))
+          }, 
+          icon: Icon(Icons.camera_front,color:isFrontCamera?Colors.blue: Colors.white,))
         ],
          centerTitle: true,
         title: const Text(
@@ -118,7 +119,7 @@ postScan(data, url, (result, error) => {
                       ]),
                   child: const Image(
                     height:120,
-                    image: AssetImage("assets/images/logo_jpg.png"),
+                    image: AssetImage("assets/images/logo.png"),
                     fit: BoxFit.contain,
                   ),
                              ),

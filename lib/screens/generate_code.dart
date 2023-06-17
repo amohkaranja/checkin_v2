@@ -57,7 +57,7 @@ void initState() {
                     ]),
                 child: const Image(
                   height:120,
-                  image: AssetImage("assets/images/logo_jpg.png"),
+                  image: AssetImage("assets/images/logo.png"),
                   fit: BoxFit.contain,
                 ),
               ),
