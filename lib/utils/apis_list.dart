@@ -19,7 +19,7 @@ void login(data, callback) async {
   final prefs = await SharedPreferences.getInstance();
  
   var url = Uri.parse("${api}api/auth/jwt/login/");
-  print(data);
+
    var response = await http.post(url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -29,7 +29,9 @@ void login(data, callback) async {
 
   // ignore: avoid_print
   if (jsonResponse["responseCode"] == 0) {
-    
+     prefs.setString('email',data['email']); 
+    prefs.setString('password',data['password']); 
+
     AuthToken token = AuthToken.fromJson(jsonResponse['data']);
     var url = Uri.parse("${api}api/auth/users/me"); 
     var newresponse=  await http.get(url,headers:  <String, String>{
@@ -83,12 +85,15 @@ Future<bool> fetchDataAndSaveToPrefs() async {
   // obtain shared preferences
   final prefs = await SharedPreferences.getInstance();
   String url = '${api}api/v1/institution/institutions'; 
-  var response = await http.get(Uri.parse(url));
-  var data = json.decode(response.body);
+  var response = await http.get(Uri.parse(url),headers:  <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+     
+  var data = json.decode(response.body) as Map<String, dynamic>;
   // Convert data to List<String>
   List<String> schools = [];
   if (data is List) {
-    schools = List.castFrom(data);
+    schools = List.castFrom(data as List);
   } else if (data is Map) {
   if (data["items"] != null) {
   data["items"].forEach((item) {

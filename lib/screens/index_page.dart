@@ -1,4 +1,5 @@
 import 'package:checkin/screens/login_page.dart';
+import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,16 +22,35 @@ class _IndexPageState extends State<IndexPage> {
    void callMain() async{
    await fetchDataAndSaveToPrefs();
      final prefs = await SharedPreferences.getInstance();
-    var reg= prefs.getString('regNo');
-    if(reg!.isEmpty){
-      // ignore: use_build_context_synchronously
-      Navigator.push(
+    var email= await prefs.getString('email');
+    var password= await prefs.getString('password');
+    print(email);
+    print(password);
+    print(email!.isNotEmpty);
+    if(email!.isNotEmpty){
+      var data = {"email": email, "password": password};
+            login(
+        data,
+        (result, error) => {
+          _loading=false,
+                if(result==null){
+                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const HomeScreen()),
-                  );
+                         builder: (context) => const HomeScreen()),
+                  )
+                }else{
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StudentHomeScreen()),
+                  )
+                }
+                 
+                
+            });
     }else{
-     
+      _loading=false;
          // ignore: use_build_context_synchronously
          Navigator.push(
                     context,
@@ -44,7 +64,6 @@ class _IndexPageState extends State<IndexPage> {
     void fetchData() async {
     
     setState(() {
-      _loading = false;
       callMain();
     });
    
