@@ -6,6 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/apis_list.dart';
 import 'user_profile.dart';
+import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+
+const List<TabItem> items = [
+  TabItem(
+    icon: Icons.home,
+     title: 'Home',
+  ),
+
+  TabItem(
+    icon: Icons.account_box,
+    title: 'profile',
+  ),
+];
 class StudentHomeScreen extends StatefulWidget {
   const StudentHomeScreen({super.key});
 
@@ -15,7 +28,8 @@ class StudentHomeScreen extends StatefulWidget {
 
 class _StudentHomeScreenState extends State<StudentHomeScreen> {
   late String _mode;
-  late bool modeState ;
+  late bool modeState =true ;
+  int _currentIndex = 0;
  Future<void> loadTheme() async {
  final prefs = await SharedPreferences.getInstance();
      var mode= prefs.getString("themeMode");
@@ -36,6 +50,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
 
 void initState() {
   super.initState();
+    _currentIndex = 0;
     loadTheme();
   }
   @override
@@ -151,13 +166,12 @@ void initState() {
                             );
                           }
                         }).catchError((error) {
-                          print(error);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Error: ${error.toString()}")),
                           );
                         });
                         },
-                                    child: const Card(
+                         child: const Card(
                                           child: Padding(
                                             padding: EdgeInsets.all(30.0),
                                             child: Column(children: <Widget>[
@@ -197,7 +211,6 @@ void initState() {
                             );
                           }
                         }).catchError((error) {
-                          print(error);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Error: ${error.toString()}")),
                           );
@@ -222,8 +235,7 @@ void initState() {
                            ),
                          ],
                        ),
-               ),
-                    Container(
+               ),  Container(
         margin: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(boxShadow: [
               
@@ -257,59 +269,41 @@ void initState() {
                       ),
                     ),
                 ),
+                
               ),
             ),
             
           ),
-           
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0,),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children:  <Widget>[
-                        
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const StudentHomeScreen()),
-                      );
-                          },
-                          child: const Image(
-                            image: AssetImage("assets/images/home.png"),
-                            height: 40,
-                          ),
-                        ),
-                        const Text("Home")
-                      ],
-                    ),
-                    Column(
-                      children:  [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const User_Profile()),
-                      );
-                          },
-                          child: const Image(
-                            image: AssetImage("assets/images/account.png"),
-                            height: 40,
-                          ),
-                        ),
-                        const Text("Profile")
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
         ]),
+        
+      ),
+
+        bottomNavigationBar: Container(
+        padding:const EdgeInsets.symmetric(vertical: 0),
+        child: BottomBarFloating(
+          items: items,
+          backgroundColor: const Color(0xff008346),
+          color: Colors.white,
+          colorSelected: Colors.orange,
+          indexSelected:  _currentIndex ,
+          paddingVertical: 20,
+          onTap: (int index) => setState(() {
+                _currentIndex = index;
+            if (index == 0) {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StudentHomeScreen()),
+                    );
+            } else if (index == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const User_Profile()),
+                    );
+            }
+          }),
+        ),
       ),
     );
   }
