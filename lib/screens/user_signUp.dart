@@ -29,9 +29,9 @@ class _UserSignUpState extends State<UserSignUp> {
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: const [
+                    boxShadow:  [
                       BoxShadow(
-                          color: Colors.white,
+                          color: Theme.of(context).primaryColor,
                           spreadRadius: 2,
                           blurRadius: 5,
                           offset: Offset(0, 3))

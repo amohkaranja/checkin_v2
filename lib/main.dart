@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeData.dark().copyWith(
         primaryColor: const Color.fromARGB(255, 60, 59, 59),
         hintColor: Colors.white,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyText1: TextStyle(fontSize: 16.0, color: Colors.white),
         ),
       ),

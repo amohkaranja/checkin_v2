@@ -20,14 +20,13 @@ class _IndexPageState extends State<IndexPage> {
     fetchData();
   }
    void callMain() async{
+    
    await fetchDataAndSaveToPrefs();
      final prefs = await SharedPreferences.getInstance();
-    var email= await prefs.getString('email');
-    var password= await prefs.getString('password');
-    print(email);
-    print(password);
-    print(email!.isNotEmpty);
-    if(email!.isNotEmpty){
+  var email = prefs?.getString('email');
+    var password = prefs?.getString('password');
+    
+    if(email != null && password != null){
       var data = {"email": email, "password": password};
             login(
         data,
