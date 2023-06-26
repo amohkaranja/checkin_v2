@@ -1,9 +1,10 @@
 import 'package:checkin/screens/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ndialog/ndialog.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
-import '../models/user_model.dart';
 import '../utils/apis_list.dart';
 import 'class_instance.dart';
 
@@ -15,35 +16,74 @@ class ClassScanII extends StatefulWidget {
 }
 
 class _ClassScanIIState extends State<ClassScanII> {
-   Profile? _profile; 
+   @override
+  void initState() {
+    super.initState();
+    // Disable screenshots on this page.
+    FlutterWindowManager.FLAG_SECURE;
+  }
   Barcode? result;
   QRViewController?controller;
    String _errorMessage = "";
-  bool _loading=false;
    bool isFlashon= false;
+   late String lecturecode;
   bool isFrontCamera=false;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'Qr');
+
+  share_scan(){
+      NAlertDialog(
+              dialogStyle: DialogStyle(titleDivider: true),
+              
+              content: Container(
+    width: MediaQuery.of(context).size.width * 0.8,
+    height: MediaQuery.of(context).size.height * 0.5,
+    child: Center(
+      child:QrImageView(
+               data:lecturecode,
+              version: QrVersions.auto,
+              size: 200,
+              gapless: false,
+            )
+    ),
+  ),
+              actions: <Widget>[
+                TextButton(
+                    child: Text("Okay"),
+                    onPressed: () =>  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StudentHomeScreen()),
+                  )),
+                TextButton(
+                    child: Text("Close"),
+                    onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StudentHomeScreen()),
+                  )),
+              ],
+            ).show(context);
+  }
  
  submit(Code){
-  print(Code);
+ 
     var data={"lecture_code":Code,"verification_type":"QRCODE"};
     var url="api/v1/platform/lecture_attendances";
       setState(() {
       _errorMessage = "";
-      _loading=true;
+      lecturecode=Code;
     });
 postScan(data, url, (result, error) => {
               if (result == null)
                 {
                   setState(() {
-                  _loading=false;
                 }),
                   setState(() {
                     _errorMessage = error;
                   })
                 }
                 else if(result=="2"){
-                
+               
                  Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -54,14 +94,9 @@ postScan(data, url, (result, error) => {
               else
                 {
                     setState(() {
-                  _loading=false;
                 }),
                
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StudentHomeScreen()),
-                  )
+             share_scan()
                 }
             });
   }
@@ -197,6 +232,8 @@ var scanArea =(MediaQuery.of(context).size.width<400||MediaQuery.of(context).siz
     cutOutSize: scanArea.toDouble()),);
 }
 
+
+
 void _onQRViewCreated(QRViewController controller){
     setState(() {
       this.controller=controller;
@@ -204,7 +241,8 @@ void _onQRViewCreated(QRViewController controller){
     controller.scannedDataStream.listen((scanData) {
         if (mounted) {
       controller.dispose();
-       submit(scanData.code);
+        submit(scanData.code);
+      
     }
      
      });

@@ -223,7 +223,7 @@ void initState() {
                                 child: Column(children: <Widget>[
                                                           Image(
                                                             image: AssetImage("assets/images/time_machine.png"),
-                                                            height: 80,
+                                                            height: 70,
                                                             fit: BoxFit.contain,
                                                           ),
                                                           Text("Scanned Activities")

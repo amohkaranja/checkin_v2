@@ -18,7 +18,6 @@ class ClassInstance extends StatefulWidget {
 class _ClassInstanceState extends State<ClassInstance> {
 
   String _errorMessage = "";
-  bool _loading = false;
   bool registered=false;
 
   void home(){
@@ -49,20 +48,17 @@ class _ClassInstanceState extends State<ClassInstance> {
     setState(() 
     {
       _errorMessage = "";
-      _loading = true;
     });
     // call the postScan method and handle the result
     postScan(data, url, (result, error) {
         if (result == null)
          {
           setState(() {
-            _loading = false;
             _errorMessage = error ?? "Unknown error occurred.";
           });
         } else 
         {
           setState(() {
-            _loading = false;
             registered=true;
             _errorMessage = error ?? "Class registered successfully!";
           });
@@ -99,7 +95,7 @@ class _ClassInstanceState extends State<ClassInstance> {
                     borderRadius: BorderRadius.circular(10.0),
                     boxShadow:  [
                       BoxShadow(
-                         color: Colors.grey.shade200,
+                         color: Theme.of(context).primaryColor,
                          spreadRadius: 0.5,
                          blurRadius: 3,
                           // offset: Offset(0, 3)

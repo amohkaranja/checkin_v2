@@ -22,10 +22,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       return false;
     }
   }
-bool _isPassword = false;
 bool _loading=false;
-final bool _isCurrentPassword = false;
-final bool _isConfirmPassword = false;
 late String _password = "",
 _confirmPassowrd="";
   String email="";
@@ -147,12 +144,10 @@ void initState() {
                   validator: (value) {
                   if (value!.isEmpty) {
                     setState(() {
-                      _isPassword = false;
                     });
                     return 'Please enter a password';
                   } else {
                     setState(() {
-                      _isPassword = true;
                     });
                     if(isPasswordValid(value)!=""){
                       return isPasswordValid(value);

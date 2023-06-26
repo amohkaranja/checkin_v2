@@ -9,7 +9,6 @@ class UserSignUp extends StatefulWidget {
 }
 
 class _UserSignUpState extends State<UserSignUp> {
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

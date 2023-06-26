@@ -23,8 +23,8 @@ class _IndexPageState extends State<IndexPage> {
     
    await fetchDataAndSaveToPrefs();
      final prefs = await SharedPreferences.getInstance();
-  var email = prefs?.getString('email');
-    var password = prefs?.getString('password');
+  var email = prefs.getString('email');
+    var password = prefs.getString('password');
     
     if(email != null && password != null){
       var data = {"email": email, "password": password};

@@ -1,6 +1,5 @@
 import 'package:checkin/screens/login_page.dart';
 import 'package:flutter/material.dart';
-import '../models/user_model.dart';
 import '../utils/apis_list.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -28,16 +27,12 @@ class _ChangePasswordState extends State<ChangePassword> {
       return false;
     }
   }
-  bool _isPassword = false;
 
   bool _loading = false;
 
-  final bool _isCurrentPassword = false;
-  final bool _isConfirmPassword = false;
   late String _password = "",
 _currentPassword="", 
 _confirmPassowrd="";
-  Profile? _profile; 
   String _errorMessage = "";
   @override
 void initState() {
@@ -46,9 +41,8 @@ void initState() {
   }
 
    Future<void> loadProfileData() async {
-  final profile = await profileData();
    setState(() {
-      _profile = profile; // assign the value of profile to _profile
+// assign the value of profile to _profile
     });
 }
 
@@ -190,12 +184,10 @@ void initState() {
                   validator: (value) {
                   if (value!.isEmpty) {
                     setState(() {
-                      _isPassword = false;
                     });
                     return 'Please enter a password';
                   } else {
                     setState(() {
-                      _isPassword = true;
                     });
                     if(isPasswordValid(value)!=""){
                       return isPasswordValid(value);
