@@ -67,7 +67,8 @@ void initState() {
 
               Expanded(flex: 4, child: Container(
              child: QrImageView(
-              data: _profile?.regNo??'',
+              // data: _profile?.regNo??'',
+               data:'PFnA7OFRBYtdXGrONqNS9UMUHrCJtxyWVMs1HCMZPkOd90OEnLhzZdse203GpHRQ3wJSn2M9avgHfFPekox4F-XKlQW98snG6Eonvw==',
               version: QrVersions.auto,
               size: 200,
               gapless: false,

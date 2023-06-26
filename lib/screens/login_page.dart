@@ -1,7 +1,6 @@
 import 'package:checkin/widgets/login_form.dart';
 import 'package:flutter/material.dart';
 
-import '../models/user_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

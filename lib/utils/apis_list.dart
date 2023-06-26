@@ -96,6 +96,7 @@ Future<bool> fetchDataAndSaveToPrefs() async {
   List<String> schools = [];
   if (data is List) {
     schools = List.castFrom(data as List);
+  // ignore: unnecessary_type_check
   } else if (data is Map) {
   if (data["items"] != null) {
   data["items"].forEach((item) {
@@ -192,7 +193,6 @@ void Patch(dynamic data, String url, Function callback) async {
      var token=  (prefs.getString("access"));
       var Id=  (prefs.getString("userId"));
   var apiUrl = Uri.parse(api + url+Id!);
-  print(url+Id!);
     var response = await http.patch(apiUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
